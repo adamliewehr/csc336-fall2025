@@ -10,18 +10,27 @@
 
 <body>
     <h1>
-        My Resume
-    </h1>
-    <h2>
         Adam Liewehr
-    </h2>
-    <h2>Links</h2>
+    </h1>
+
+    <!-- <a href="https://github.com/adamliewehr"; class="flex-item">GitHub</a>
+
+        <a href="https://www.linkedin.com/in/adamliewehr/"; class="button">LinkedIn</a> -->
+
+    <div class="flex-container">
+        <div class="flex-item">
+            <a href="https://github.com/adamliewehr" ; class="flex-item"; target="_blank">GitHub</a>
 
 
-    <!-- What I'm thining is making a resume site, but you can hover/click around
-         when you hover over each expereince, you can see what I did, and any projects 
-         that are related to that experience
-         The flex box will be used for any pictures of that experience -->
+        </div>
+        <div class="flex-item">
+            <a href="https://www.linkedin.com/in/adamliewehr/" ; class="button"; target="_blank">LinkedIn</a>
+
+
+        </div>
+    </div>
+
+
 
     <section id="flexbox">
 
@@ -89,7 +98,7 @@
             <div class="flex-item">
                 <div class="hover-box" ; id="AU-TA">
                     <h3 class="expereince-title">
-                        Computer Science Teaching Assistant
+                        Computer Science TA
                     </h3>
                     <p class="experience-info" ; id="place">
                         American University • Washington, D.C.
@@ -188,6 +197,41 @@
             </div>
         </div>
     </section>
+
+    <section class="flexbox">
+        <div class="flex-container">
+            <div class="flex-item"; id="card">
+            <img src="olive.JPG" alt="olive" width="300px">
+            <img src="olive2.jpeg" alt="olive" width="268.5px">
+            <div class="container">
+                <h4><b>Olive</b></h4>
+                <p>10 years old</p>
+                <p>Stares at you for no reason</p>
+            </div>
+
+        </div>
+
+        <div class="flex-item"; id="card">
+            <img src="mazie.JPG" alt="mazie" width="300px">
+            <img src="mazie2.JPG" alt="mazie" width="300px">
+
+            <div class="container">
+                <h4><b>Mazie</b></h4>
+                <p>2 years old</p>
+                <p>Has a total of 2 neurons in her brain</p>
+            </div>
+
+        </div>
+
+        </div>
+        
+
+    </section>
+
+
+
+    <footer class="fixed">Click <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"; target="_blank">here</a> to see pictures of my
+        cat!</footer>
 
 </body>
 

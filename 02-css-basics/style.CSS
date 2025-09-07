@@ -1,11 +1,32 @@
 
-h1 {
-    background-color: green;
+body {
+    background-image: linear-gradient(to right, #ff7e5f, #feb47b);
+    font-family: sans-serif;
 }
+
+a:hover {
+    text-decoration: underline;
+    color: blue
+}
+
+
+
+
+footer.fixed {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.408);
+        color: rgb(0, 0, 0);
+        text-align: center;
+        padding: 5px;
+      }
+
+
 
 .hover-box {
   width: 300px;
-  height: 200px;
+  height: 175px;
     background: linear-gradient(to bottom, #f9f9f9, #e0e0e0);
   color: #000000;
     border: 2px solid #333;
@@ -85,6 +106,22 @@ h1 {
     font-size: xx-small;
 }
 
+
+#card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 300px;
+  border-radius: 100px;
+}
+
+#card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2px 16px;
+}
+
 /* flexbox stuff */
 
 
@@ -96,7 +133,53 @@ h1 {
       }
       .flex-item {
         flex: 1 1 100px;
-        background: rgb(255, 255, 255);
+        /* background: rgb(255, 255, 255); */
         padding: 20px;
         text-align: center;
       }
+
+
+/* THE FOLLOWING CODE IS FROM GEMINI I JUST THOUGHT IT WOULD BE FUNNY */
+
+.button {
+    
+            padding: 1.5rem 10rem;
+            border-radius: 9999px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 3.5rem;
+            color: black;
+            text-decoration:wavy;
+            background: linear-gradient(90deg, #c22ed0, #5FFAE0);
+            box-shadow: 0 0 10px rgba(0,0,0,0.5), inset 0 0 10px rgba(255,255,255,0.2);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            animation: pulse-border 2s infinite ease-in-out;
+            /* backface-visibility: hidden; */
+            /* will-change: transform; */
+}
+
+.button:hover {
+            transform: scale(1.15) rotate(7deg) translateY(-10px);
+            background: linear-gradient(315deg, #fee440, #ff5733, #e538f5, #22a7f0);
+            background-size: 400% 400%;
+            animation: gradient-shift 1.5s ease-in-out infinite, pulse-shadow 1s infinite alternate;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.9), inset 0 0 20px rgba(255, 255, 255, 0.8);
+            border: 3px solid #fff;
+        }
+
+@keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulse-shadow {
+            from { box-shadow: 0 0 20px 5px #ff5733, 0 0 40px 10px #e538f5; }
+            to { box-shadow: 0 0 30px 10px #22a7f0, 0 0 50px 15px #fee440; }
+        }
+
+@keyframes pulse-border {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(247, 37, 133, 0.7); }
+            50% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(247, 37, 133, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(247, 37, 133, 0); }
+        }
