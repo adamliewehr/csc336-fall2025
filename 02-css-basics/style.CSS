@@ -1,4 +1,9 @@
 
+h1 {
+    text-align: center;
+
+}
+
 body {
     background-image: linear-gradient(to right, #ff7e5f, #feb47b);
     font-family: sans-serif;
