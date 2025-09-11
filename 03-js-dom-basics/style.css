@@ -1,0 +1,43 @@
+p {
+    color: white;
+    ;
+}
+
+#secondButton {
+    visibility: hidden;
+}
+
+#jumpscare {
+    visibility: hidden;
+}
+
+#body {
+    background-color: blue;
+}
+
+#mazie {
+    width: 200px;
+    transform: rotate(0deg);
+}
+
+.demo-box {
+    background-color: lightgreen;
+    padding: 50px;
+    margin: 50px;
+    border-radius: 15px;
+
+}
+
+.fullscreen-overlay {
+  position: fixed; /* Keep the element in the same spot on the screen */
+  top: 0;
+  left: 0;
+  width: 100vw; /* 100% of the viewport width */
+  height: 100vh; /* 100% of the viewport height */
+  background-color: rgba(0, 0, 0, 0.7); /* A semi-transparent black background */
+  display: flex; /* Helps to center content inside */
+  justify-content: center;
+  align-items: center;
+  /* z-index: 1; A high value to ensure it's on top of other elements */
+}
+
