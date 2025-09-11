@@ -33,7 +33,7 @@ function jumpscareButton() {
 
     // Create the image element for the GIF
     const gif = document.createElement('img');
-    gif.src = 'secret.gif'; // Replace with the path to your GIF
+    gif.src = 'secret1.gif'; // Replace with the path to your GIF
 
     const sound = new Audio('sound.mp3'); // Replace with the path to your sound file
 
