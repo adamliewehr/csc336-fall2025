@@ -1,76 +1,72 @@
-let animals = [
+let tasks = [
     {
-        type: "cat",
-        strength: 10,
-        charisma: 16, 
+        description: "Complete CSC336 assignment",
+        priority: "#d93025", 
+        dueDate: "2025-09-23",
     },
     {
-        type: "dog",
-        strength: 14,
-        charisma: 9, 
-    },
-    {
-        type: "rabbit",
-        strength: 7,
-        charisma: 12, 
-    },
-    {
-        type: "sea horse",
-        strength: 2,
-        charisma: 20, 
-    },
+        description: "Go grocery shopping",
+        priority: "#34a853", 
+        dueDate: "2025-09-23",
+    }
 ];
 
-document.addEventListener("DOMContentLoaded", populateAnimalDiv);
+document.addEventListener("DOMContentLoaded", populateTasksDiv);
 
-function populateAnimalDiv() {
-    let animalInfoDiv = document.querySelector('#all-animal-info');
+const tasksInfoDiv = document.querySelector('#all-tasks-info');
+const errorMessageDiv = document.querySelector('#error-message');
 
-    animalInfoDiv.innerHTML = "";
+function populateTasksDiv() {
+    tasksInfoDiv.innerHTML = ""; 
 
-    // for (let i = 0; i < animals.length; i++) {
-    //     let animal = animals[i];
-    // }
-    //or 
-
-    for (let animal of animals) {
-        let animalHTML = createAnimalDiv(animal);
-        animalInfoDiv.innerHTML += animalHTML;
-
+    for (const task of tasks) {
+        const taskHTML = createTaskDiv(task);
+        tasksInfoDiv.innerHTML += taskHTML;
     }
-
 }
 
-function createAnimalDiv(animal) {
+function createTaskDiv(task) {
     return `
-        <div>
-            <h1>${animal.type}<h1>
-            <div class='stats'>
-                <div>strength: ${animal.strength}</div>
-                <div>charisma: ${animal.charisma}</div>
+        <div class="task" style="border-left-color: ${task.priority};">
+            <h3>${task.description}</h3>
+            <div class='task-details'>
+                <span>Due: ${task.dueDate}</span>
             </div>
-
         </div>
     `;
-    
 }
 
+const addTaskForm = document.querySelector("#add-task-form");
+addTaskForm.addEventListener("submit", addNewTask);
 
-let addAnimalForm = document.querySelector("#add-animal-form");
-addAnimalForm.addEventListener("submit", addNewAnimal);
+function addNewTask(e) {
+    e.preventDefault(); 
+    errorMessageDiv.textContent = ""; 
 
-function addNewAnimal(e) {
-    e.preventDefault();
+    const descriptionInput = document.querySelector("#task-description-field").value;
+    const priorityInput = document.querySelector("#task-priority-field").value;
+    const dueDateInput = document.querySelector("#task-due-date-field").value;
 
-    let typeInput = document.querySelector("#animal-type-feild").value;
-    let strengthInput = document.querySelector("#animal-strength-feild").value;
-    let charismaInput = document.querySelector("#animal-charisma-feild").value;
-
-    let newAnimal =  {
-        type:typeInput,
-        strength: strengthInput,
-        charisma: charismaInput
+ 
+    // Check if any fields are empty
+    if (!descriptionInput || !priorityInput || !dueDateInput) {
+        errorMessageDiv.textContent = "Error: All fields are required.";
+        return;
     }
-    animals.push(newAnimal);
-    populateAnimalDiv();
+
+    // Check if the description is long enough
+    if (descriptionInput.length < 3) {
+        errorMessageDiv.textContent = "Error: Task description must be at least 3 characters long.";
+        return; 
+    }
+
+    const newTask = {
+        description: descriptionInput,
+        priority: priorityInput,
+        dueDate: dueDateInput
+    };
+
+    tasks.push(newTask); 
+    populateTasksDiv(); 
+    addTaskForm.reset();
 }

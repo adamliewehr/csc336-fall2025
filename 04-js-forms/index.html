@@ -1,35 +1,32 @@
+<!DOCTYPE html>
 <html>
     <head>
-        <title>Animals</title>
+        <title>To-Do List</title>
         <script src="script.js" defer> </script>
         <link rel="stylesheet" href="./style.css">
-
-
     </head>
+    
     <body>
-        <div id="'add-new-animal">
-            <form id="add-animal-form">
-
-                <!-- types of input -->
-                 <!-- text, number, checkbox -->
-                <label for="animal-type-feild">Animal Type</label>
-                <input id="animal-type-feild"; type="text"> </input>
-
-                <label for="animal-strength-feild">Animal Strength</label>
-                <input id="animal-strength-feild"; type="number"; min="1"; max="20"> </input>
-
-                <label for="animal-charisma-feild">Animal Charisma</label>
-                <input id="animal-charisma-feild"; type="number"; min="1"; max="20"> </input>
-
-                <button type="submit"; id="create-animal-button">Add Animal</button>
-
-                
-            </form>
-
-
+        <div id="container">
+            <h1>To-Do List</h1>
+            <div id="add-new-task">
+                <form id="add-task-form">
+                    
+                    <label for="task-description-field">Task Description</label>
+                    <input id="task-description-field" type="text" placeholder="e.g., Finish homework">
+    
+                    <label for="task-priority-field">Priority Color</label>
+                    <input id="task-priority-field" type="color" value="#f6b73c">
+    
+                    <label for="task-due-date-field">Due Date</label>
+                    <input id="task-due-date-field" type="date">
+    
+                    <button type="submit" id="create-task-button">Add Task</button>
+                </form>
+                <div id="error-message"></div>
+            </div>
+    
+            <div id="all-tasks-info"></div>
         </div>
-
-        <div id="all-animal-info"></div>
-        
     </body>
 </html>

@@ -1,8 +1,65 @@
-.stats {
+body {
+    font-family: sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
     display: flex;
-    gap: 40px
+    justify-content: center;
+    padding-top: 40px;
 }
 
-.stats {
-    
+#container {
+    width: 600px;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    text-align: center;
+    color: #4a4a4a;
+}
+
+#add-task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#add-task-form input, #add-task-form button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+#add-task-form button {
+    background-color: #5c67f2;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.task {
+    background-color: #fafafa;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.task-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+    color: #666;
+}
+
+#error-message {
+    color: #d93025;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
 }
