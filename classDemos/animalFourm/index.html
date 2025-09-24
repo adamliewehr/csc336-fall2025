@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>Animals</title>
+        <script src="animal.js" defer> </script>
+        <link rel="stylesheet" href="./style.css">
+
+
+    </head>
+    <body>
+        <div id="'add-new-animal">
+            <form id="add-animal-form">
+
+                <!-- types of input -->
+                 <!-- text, number, checkbox -->
+                <label for="animal-type-feild">Animal Type</label>
+                <input id="animal-type-feild"; type="text"> </input>
+
+                <label for="animal-strength-feild">Animal Strength</label>
+                <input id="animal-strength-feild"; type="number"; min="1"; max="20"> </input>
+
+                <label for="animal-charisma-feild">Animal Charisma</label>
+                <input id="animal-charisma-feild"; type="number"; min="1"; max="20"> </input>
+
+                <button type="submit"; id="create-animal-button">Add Animal</button>
+
+                
+            </form>
+
+
+        </div>
+
+        <div id="all-animal-info"></div>
+        
+    </body>
+</html>
