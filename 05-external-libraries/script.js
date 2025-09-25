@@ -27,12 +27,14 @@ let enemyImg;
 let pizzaImg;
 let playButtonImg;
 let explosionImg;
+let gameOverImg;
 
 function preload() {
     enemyImg = loadImage('enemy.png');
     pizzaImg = loadImage('pizza.png');
     playButtonImg = loadImage('playButton.png');
     explosionImg = loadImage('explosion.gif');
+    gameOverImg = loadImage('gameOver.gif');
 
 }
 
@@ -43,8 +45,12 @@ let saveX = 0;
 let saveY = 0;
 
 function draw() {
-    // put drawing code here
-    background('white');
+    // setting up the background and border of the canvas
+    background('white'); // A light gray background
+    stroke(0);
+    strokeWeight(10);
+    noFill();
+    rect(0, 0, width, height);
 
     if (!clickedPlay) {
 
@@ -61,7 +67,7 @@ function draw() {
     // strokeWeight(10);
     // ellipse(mouseX, mouseY, mouseX, mouseY);
 
-    
+
 
     if (!lostYet && clickedPlay) {
         for (let dot of dots) {
@@ -80,7 +86,7 @@ function draw() {
         }
 
         // for (let enemy of enemies) {
-            
+
         // }
 
     }
@@ -88,6 +94,11 @@ function draw() {
     if (lostYet) {
         imageMode(CENTER);
         image(explosionImg, saveX, saveY, 100, 100);
+
+        imageMode(CENTER);
+        image(gameOverImg, width / 2, height / 2, width / 2, height / 2);
+
+
     }
 
 
@@ -199,8 +210,8 @@ class Enemy {
         let magnitude = sqrt(directionalVector[0] ** 2 + directionalVector[1] ** 2);
         let normalizedVector = [directionalVector[0] / magnitude, directionalVector[1] / magnitude];
 
-        this.dx = normalizedVector[0]*this.variableSpeed;
-        this.dy = normalizedVector[1]*this.variableSpeed;
+        this.dx = normalizedVector[0] * this.variableSpeed;
+        this.dy = normalizedVector[1] * this.variableSpeed;
 
     }
 
