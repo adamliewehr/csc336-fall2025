@@ -87,7 +87,7 @@ function draw() {
 
     if (lostYet) {
         imageMode(CENTER);
-        image(explosionImg, saveX, saveY, 300, 300);
+        image(explosionImg, saveX, saveY, 100, 100);
     }
 
 
@@ -151,8 +151,8 @@ class Dot {
         let magnitude = sqrt(directionalVector[0] ** 2 + directionalVector[1] ** 2);
         let normalizedVector = [directionalVector[0] / magnitude, directionalVector[1] / magnitude];
 
-        this.dx = normalizedVector[0] * 2;
-        this.dy = normalizedVector[1] * 2;
+        this.dx = normalizedVector[0] * 2.5;
+        this.dy = normalizedVector[1] * 2.5;
 
     }
 
@@ -178,6 +178,8 @@ class Enemy {
         this.dx = 0;
         this.dy = 0;
 
+        this.variableSpeed = Math.random() * 2.4;
+
     }
 
     draw(toX, toY) {
@@ -197,8 +199,8 @@ class Enemy {
         let magnitude = sqrt(directionalVector[0] ** 2 + directionalVector[1] ** 2);
         let normalizedVector = [directionalVector[0] / magnitude, directionalVector[1] / magnitude];
 
-        this.dx = normalizedVector[0];
-        this.dy = normalizedVector[1];
+        this.dx = normalizedVector[0]*this.variableSpeed;
+        this.dy = normalizedVector[1]*this.variableSpeed;
 
     }
 
