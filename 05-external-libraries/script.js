@@ -10,6 +10,9 @@ let holster = [];
 
 let spawnBox;
 
+let myDropdown;
+let difficultySpeed = 0.5; // default speed
+
 function setup() {
     // put setup code here
 
@@ -29,6 +32,22 @@ function setup() {
     // }
 
     spawnBox = new SpawnBox();
+
+    myDropdown = document.getElementById('myDropdown');
+
+    myDropdown.addEventListener('change', function () {
+        let difficulty = this.value;
+        if (difficulty == 'easy') {
+            difficultySpeed = 0.5;
+        } else if (difficulty == 'medium') {
+            difficultySpeed = 1;
+        } else if (difficulty == 'hard') {
+            difficultySpeed = 2;
+        }
+        // console.log(difficulty);
+        // console.log(difficultySpeed);
+        
+    });
 
 
 
@@ -83,8 +102,8 @@ function draw() {
 
         //spawnBox.draw();
 
-        
-        
+
+
 
         for (let dot of dots) {
             dot.draw();
@@ -101,7 +120,7 @@ function draw() {
 
 
             }
-    
+
 
         }
 
@@ -167,28 +186,28 @@ function keyPressed() {
     if (key == 'r' || key == 'R') {
 
         spawnBox.draw();
-        
-        
-        
-        
+
+
+
+
         for (let i = 0; i < 10; i++) {
             let random1 = Math.random() * width;
             let random2 = Math.random() * height;
 
-            
 
 
-            if (dist(width/2, height/2, random1, random2)>300) {
+
+            if (dist(width / 2, height / 2, random1, random2) > 300) {
                 let enemy = new Enemy(random1, random2);
                 enemies.push(enemy);
-                
+
             }
             else {
                 console.log('enemy removed');
             }
 
-            
-            
+
+
 
 
         }
@@ -196,27 +215,27 @@ function keyPressed() {
     }
 
     else if (key == 'w') {
-        holster.push(new Bullet(saveX, saveY, 'up', piDigits[count%piDigits.length]));
+        holster.push(new Bullet(saveX, saveY, 'up', piDigits[count % piDigits.length]));
         count += 1;
 
     }
 
     else if (key == 's') {
-        holster.push(new Bullet(saveX, saveY, 'down', piDigits[count%piDigits.length]));
+        holster.push(new Bullet(saveX, saveY, 'down', piDigits[count % piDigits.length]));
         count += 1;
 
 
     }
 
     else if (key == 'a') {
-        holster.push(new Bullet(saveX, saveY, 'left', piDigits[count%piDigits.length]));
+        holster.push(new Bullet(saveX, saveY, 'left', piDigits[count % piDigits.length]));
         count += 1;
 
 
     }
 
     else if (key == 'd') {
-        holster.push(new Bullet(saveX, saveY, 'right', piDigits[count%piDigits.length]));
+        holster.push(new Bullet(saveX, saveY, 'right', piDigits[count % piDigits.length]));
         count += 1;
 
 
@@ -263,7 +282,7 @@ class Dot {
         image(this.img, this.x, this.y, 50, 50);
 
 
-        // learned this through CMU Academy when I taught last year
+        // learned this through CMU Academy when I taught middle school last year
         let directionalVector = [mouseX - this.x, mouseY - this.y];
         let magnitude = sqrt(directionalVector[0] ** 2 + directionalVector[1] ** 2);
         let normalizedVector = [directionalVector[0] / magnitude, directionalVector[1] / magnitude];
@@ -285,7 +304,7 @@ class Enemy {
         this.dx = 0;
         this.dy = 0;
 
-        this.variableSpeed = Math.random() * 2.4;
+        this.variableSpeed = difficultySpeed + (Math.random() * (0.4 - -0.4) + -0.4);
 
     }
 
@@ -297,17 +316,27 @@ class Enemy {
 
 
 
-        imageMode(CENTER);
-        image(this.img, this.x, this.y, 50, 50);
+        
+        
 
 
-        // learned this through CMU Academy when I taught last year
+        // learned this through CMU Academy when I taught middle school last year
         let directionalVector = [toX - this.x, toY - this.y];
         let magnitude = sqrt(directionalVector[0] ** 2 + directionalVector[1] ** 2);
         let normalizedVector = [directionalVector[0] / magnitude, directionalVector[1] / magnitude];
 
         this.dx = normalizedVector[0] * this.variableSpeed;
         this.dy = normalizedVector[1] * this.variableSpeed;
+
+        // // for testing purposes (comment out when not needed)
+        // fill(255);
+        // stroke(0);
+        // strokeWeight(4);
+        // text(this.variableSpeed.toFixed(2), this.x, this.y-30);
+
+        // actual enemy
+        imageMode(CENTER);
+        image(this.img, this.x, this.y, 50, 50);
 
     }
 
@@ -366,7 +395,7 @@ class SpawnBox {
     draw() {
 
 
-        ellipse(width/2, height/2, 300, 300);
+        ellipse(width / 2, height / 2, 300, 300);
 
         //Rect(this.x, this.y, this.height, this.width);
 

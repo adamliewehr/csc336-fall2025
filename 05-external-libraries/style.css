@@ -22,6 +22,15 @@
 
 }
 
+#myDropdown {
+    width: 200px; 
+  height: 40px; 
+  font-size: 16px; 
+  padding: 5px; 
+  border: 2px solid #ccc; 
+  border-radius: 5px; 
+}
+
 html {
 
     height: 100%;
