@@ -46,7 +46,7 @@ let saveY = 0;
 
 function draw() {
     // setting up the background and border of the canvas
-    background('white'); // A light gray background
+    background('white'); 
     stroke(0);
     strokeWeight(10);
     noFill();
@@ -58,15 +58,6 @@ function draw() {
         image(playButtonImg, width / 2, height / 2, 100, 100);
 
     }
-
-
-
-
-    // fill(mouseX / width * 360, 100, 100, 100);
-    // stroke('black');
-    // strokeWeight(10);
-    // ellipse(mouseX, mouseY, mouseX, mouseY);
-
 
 
     if (!lostYet && clickedPlay) {
@@ -85,10 +76,6 @@ function draw() {
 
         }
 
-        // for (let enemy of enemies) {
-
-        // }
-
     }
 
     if (lostYet) {
@@ -102,15 +89,9 @@ function draw() {
     }
 
 
-
-
-
 }
 
 function mousePressed() {
-    // for (let dot of dots) {
-    //     dot.clicked();
-    // }
 
     if (dist(mouseX, mouseY, width / 2, height / 2) < 100) {
         clickedPlay = true;
@@ -144,13 +125,6 @@ class Dot {
         this.x += this.dx;
         this.y += this.dy;
 
-
-        // Only draw the dot if it's visible
-        // if (this.isVisible) {
-        //     fill(108, 21, 12);
-        //     ellipse(this.x, this.y, this.radius * 2, this.radius * 2);
-        // }
-
         imageMode(CENTER);
         image(this.img, this.x, this.y, 30, 30);
 
@@ -166,16 +140,6 @@ class Dot {
         this.dy = normalizedVector[1] * 2.5;
 
     }
-
-    // clicked() {
-
-    //     let distance = dist(mouseX, mouseY, this.x, this.y);
-    //     if (distance < this.radius) {
-
-    //         this.isVisible = false;
-    //     }
-
-    // }
 
 }
 
