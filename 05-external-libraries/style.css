@@ -1,65 +1,32 @@
-/* html {
-    background-color: yellow;
-} */
-
 #background-image {
     background-image: url('background.jpg');
-    
-    top:0px; bottom: 0px;
-    height: 100%;
-    background-repeat: repeat;
-    position: absolute;
-    overflow-x: scroll;
-
-    top: 0;
-    left: 0;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     width: 100%;
     height: 100%;
-    opacity: 0.5;
-
+    opacity: 0.5; /* This only affects the image */
     z-index: -1;
+    position: fixed; /* This makes sure it stays behind everything */
+}
 
+/* All other content goes on top of the background */
+body {
+    background-color: transparent; /* Set this to transparent so the background image can be seen */
+    text-align: center;
+    margin: 0;
+}
 
+h1, h2, h3, p {
+    color: white;
+    text-shadow: 2px 2px 4px black; /* Optional: adds a shadow to make text more readable */
 }
 
 #myDropdown {
-    width: 200px; 
-  height: 40px; 
-  font-size: 16px; 
-  padding: 5px; 
-  border: 2px solid #ccc; 
-  border-radius: 5px; 
-}
-
-html {
-
-    height: 100%;
-    margin: 0;
-}
-
-body {
-    background-color: lightyellow;
-
-    text-align: center;
-    height: 100%;
-    margin: 0;
-
-}
-
-p {
-    color: black;
-    font-size: large;
-}
-
-h1 {
-    color: black;
-
-}
-
-h2 {
-    color: black;
-}
-
-h3 {
-    color: black;
+    width: 200px;
+    height: 40px;
+    font-size: 16px;
+    padding: 5px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
 }
