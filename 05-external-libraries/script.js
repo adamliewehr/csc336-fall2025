@@ -21,6 +21,7 @@ function setup() {
     frameRate(240);
 
     dot = new Dot(width / 2, height / 2);
+    peperoni = new Peperoni(Math.random() * width, Math.random() * height);
     //dots.push(dot);
 
 
@@ -59,7 +60,7 @@ let explosionImg;
 let gameOverImg;
 let bulletImg;
 let playAgainImg;
-
+let peperoniImg;
 
 function preload() {
     enemyImg = loadImage('enemy.png');
@@ -69,6 +70,7 @@ function preload() {
     gameOverImg = loadImage('gameOver.gif');
     bulletImg = loadImage('bullet.png');
     playAgainImg = loadImage('playAgain.png');
+    peperoniImg = loadImage('peperoni.png');
 
 }
 
@@ -82,6 +84,9 @@ let bulletSpeed = 3;
 
 
 let timesPressedR = 0;
+
+let score = 0;
+let highScore = 0;
 
 
 function draw() {
@@ -97,18 +102,17 @@ function draw() {
         textAlign(CENTER, CENTER);
 
 
-        textSize(40);
+        textSize(30);
         fill(255);
         stroke(0);
         strokeWeight(4);
 
-
-
         text("Controls and Instructions:", width / 2, height / 5);
         text("Drag the mouse to move the player", width / 2, height / 3.9);
-        text("Use WASD or the arrow keys to shoot", width / 2, height / 3.1);
-        text("Once you are comfortable with the controls", width / 2, height / 2.6);
-        text("Press r to start the fight after clicking play", width / 2, height / 2.2);
+        text("Collect pepperoni to increase your score", width/2, height/3.15)
+        text("Use WASD or the arrow keys to shoot", width / 2, height / 2.6);
+        text("Once you are comfortable with the controls", width / 2, height / 2.2);
+        text("Press r to start the fight after clicking play", width / 2, height / 1.9);
 
         imageMode(CENTER);
         image(playButtonImg, width / 2, height / 1.5, 100, 100);
@@ -120,17 +124,49 @@ function draw() {
 
         //spawnBox.draw();
 
+        textAlign(CENTER, CENTER);
+
+        textSize(20);
+        fill(255);
+        stroke(0);
+        strokeWeight(4);
+
+
+        text(`Score: ${score}`, 50, 20);
+        text(`High Score: ${highScore}`, 73, 50);
+
 
 
 
         dot.draw();
         saveX = dot.x;
         saveY = dot.y;
+
+        // peperoni
+
+        peperoni.draw();
+
+        if (dist(dot.x, dot.y, peperoni.x, peperoni.y) < 30) {
+            peperoni.x = Math.random() * width;
+            peperoni.y = Math.random() * height;
+            if (timesPressedR != 0) {
+                score += 1;
+                if (score > highScore) {
+                    highScore = score;
+
+                }
+
+            }
+            
+
+        }
+
+
         for (let enemy of enemies) {
             enemy.draw(dot.x, dot.y);
             if (dist(dot.x, dot.y, enemy.x, enemy.y) < 30) {
 
-
+                score = 0;
                 lostYet = true;
                 enemies = [];
                 holster = [];
@@ -139,6 +175,10 @@ function draw() {
 
 
         }
+
+
+
+
 
 
 
@@ -450,6 +490,23 @@ class SpawnBox {
         ellipse(this.x, this.y, 300, 300);
 
         //Rect(this.x, this.y, this.height, this.width);
+
+    }
+}
+
+class Peperoni {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.img = peperoniImg;
+
+    }
+
+    draw() {
+
+        imageMode(CENTER);
+        image(this.img, this.x, this.y, 20, 20);
+
 
     }
 }
