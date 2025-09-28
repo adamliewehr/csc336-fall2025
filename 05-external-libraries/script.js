@@ -1,4 +1,4 @@
-let dots = [];
+//let dots = [];
 let enemies = [];
 
 // let upBullets = [];
@@ -12,6 +12,7 @@ let spawnBox;
 
 let myDropdown;
 let difficultySpeed = 0.5; // default speed
+let dot;
 
 function setup() {
     // put setup code here
@@ -19,11 +20,9 @@ function setup() {
     createCanvas(800, 800);
     frameRate(240);
 
-    for (let i = 0; i < 1; i++) {
-        let dot = new Dot(width / 2, height / 2, i);
-        dots.push(dot);
+    dot = new Dot(width / 2, height / 2);
+    //dots.push(dot);
 
-    }
 
     // for (let i = 0; i < 5; i++) {
     //     let enemy = new Enemy(Math.random() * width, Math.random() * height);
@@ -46,7 +45,7 @@ function setup() {
         }
         // console.log(difficulty);
         // console.log(difficultySpeed);
-        
+
     });
 
 
@@ -59,6 +58,7 @@ let playButtonImg;
 let explosionImg;
 let gameOverImg;
 let bulletImg;
+let playAgainImg;
 
 
 function preload() {
@@ -68,6 +68,7 @@ function preload() {
     explosionImg = loadImage('explosion.gif');
     gameOverImg = loadImage('gameOver.gif');
     bulletImg = loadImage('bullet.png');
+    playAgainImg = loadImage('playAgain.png');
 
 }
 
@@ -80,6 +81,7 @@ let saveY = 0;
 let bulletSpeed = 3;
 
 
+let timesPressedR = 0;
 
 
 function draw() {
@@ -92,8 +94,24 @@ function draw() {
 
     if (!clickedPlay) {
 
+        textAlign(CENTER, CENTER);
+
+
+        textSize(40);
+        fill(255);
+        stroke(0);
+        strokeWeight(4);
+
+
+
+        text("Controls and Instructions:", width / 2, height / 5);
+        text("Drag the mouse to move the player", width / 2, height / 3.9);
+        text("Use WASD or the arrow keys to shoot", width / 2, height / 3.1);
+        text("Once you are comfortable with the controls", width / 2, height / 2.6);
+        text("Press r to start the fight after clicking play", width / 2, height / 2.2);
+
         imageMode(CENTER);
-        image(playButtonImg, width / 2, height / 2, 100, 100);
+        image(playButtonImg, width / 2, height / 1.5, 100, 100);
 
     }
 
@@ -105,24 +123,25 @@ function draw() {
 
 
 
-        for (let dot of dots) {
-            dot.draw();
-            saveX = dot.x;
-            saveY = dot.y;
-            for (let enemy of enemies) {
-                enemy.draw(dot.x, dot.y);
-                if (dist(dot.x, dot.y, enemy.x, enemy.y) < 30) {
+        dot.draw();
+        saveX = dot.x;
+        saveY = dot.y;
+        for (let enemy of enemies) {
+            enemy.draw(dot.x, dot.y);
+            if (dist(dot.x, dot.y, enemy.x, enemy.y) < 30) {
 
 
-                    lostYet = true;
-
-                }
-
+                lostYet = true;
+                enemies = [];
+                holster = [];
 
             }
 
 
         }
+
+
+
 
         for (let bullet of holster) {
             bullet.draw();
@@ -150,6 +169,35 @@ function draw() {
 
         }
 
+        if (enemies.length == 0 && timesPressedR > 0) {
+
+
+            spawnBox.draw(saveX, saveY);
+
+
+
+
+            for (let i = 0; i < 10; i++) {
+                let random1 = Math.random() * width;
+                let random2 = Math.random() * height;
+
+                if (dist(saveX, saveY, random1, random2) > 300) {
+                    let enemy = new Enemy(random1, random2);
+                    enemies.push(enemy);
+
+                }
+                else {
+                    console.log('enemy removed');
+                }
+
+
+
+
+
+            }
+
+        }
+
     }
 
     if (lostYet) {
@@ -159,6 +207,8 @@ function draw() {
         imageMode(CENTER);
         image(gameOverImg, width / 2, height / 2, width / 2, height / 2);
 
+        imageMode(CENTER);
+        image(playAgainImg, width / 2, height / 1.5, 100, 100)
 
     }
 
@@ -167,9 +217,14 @@ function draw() {
 
 function mousePressed() {
 
-    if (dist(mouseX, mouseY, width / 2, height / 2) < 100) {
+    if (dist(mouseX, mouseY, width / 2, height / 1.5) < 100) {
         clickedPlay = true;
 
+    }
+
+    if (lostYet && dist(mouseX, mouseY, width / 2, height / 1.5) < 100) {
+        clickedPlay = true;
+        lostYet = false;
     }
 }
 
@@ -178,26 +233,21 @@ let piDigits = "3.14159265358979323846264338327950288419716939937510582097494459
 
 let count = 0;
 
-
-
-
 function keyPressed() {
 
     if (key == 'r' || key == 'R') {
+        timesPressedR += 1;
 
-        spawnBox.draw();
 
 
+        spawnBox.draw(saveX, saveY);
 
 
         for (let i = 0; i < 10; i++) {
             let random1 = Math.random() * width;
             let random2 = Math.random() * height;
 
-
-
-
-            if (dist(width / 2, height / 2, random1, random2) > 300) {
+            if (dist(saveX, saveY, random1, random2) > 300) {
                 let enemy = new Enemy(random1, random2);
                 enemies.push(enemy);
 
@@ -207,34 +257,35 @@ function keyPressed() {
             }
 
 
-
-
-
         }
 
     }
 
-    else if (key == 'w') {
+    else if (key == 'w' || keyCode == UP_ARROW) {
+        event.preventDefault();
         holster.push(new Bullet(saveX, saveY, 'up', piDigits[count % piDigits.length]));
         count += 1;
 
     }
 
-    else if (key == 's') {
+    else if (key == 's' || keyCode == DOWN_ARROW) {
+        event.preventDefault();
         holster.push(new Bullet(saveX, saveY, 'down', piDigits[count % piDigits.length]));
         count += 1;
 
 
     }
 
-    else if (key == 'a') {
+    else if (key == 'a' || keyCode == LEFT_ARROW) {
+        event.preventDefault();
         holster.push(new Bullet(saveX, saveY, 'left', piDigits[count % piDigits.length]));
         count += 1;
 
 
     }
 
-    else if (key == 'd') {
+    else if (key == 'd' || keyCode == RIGHT_ARROW) {
+        event.preventDefault();
         holster.push(new Bullet(saveX, saveY, 'right', piDigits[count % piDigits.length]));
         count += 1;
 
@@ -257,10 +308,9 @@ function keyPressed() {
 
 class Dot {
 
-    constructor(x, y, index) {
+    constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.index = index;
         this.hue = Math.random() * 360;
         this.radius = 25;
         this.isVisible = true;
@@ -316,8 +366,8 @@ class Enemy {
 
 
 
-        
-        
+
+
 
 
         // learned this through CMU Academy when I taught middle school last year
@@ -387,7 +437,9 @@ class Bullet {
 
 
 class SpawnBox {
-    constructor() {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
 
 
     }
@@ -395,7 +447,7 @@ class SpawnBox {
     draw() {
 
 
-        ellipse(width / 2, height / 2, 300, 300);
+        ellipse(this.x, this.y, 300, 300);
 
         //Rect(this.x, this.y, this.height, this.width);
 
