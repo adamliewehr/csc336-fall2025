@@ -27,13 +27,10 @@ button.addEventListener("click", e => console.log("Clicked!")); // single parame
 
 let dogRequest = fetch("https://dog.ceo/api/breeds/image/random");
 
-let before = Date.now();
 
 dogRequest
     .then((dogResponse) => { return dogResponse.json() })
     .then((dogData) => {
-        let timePassed = Date.now() - before;
-        console.log(`It took ${timePassed} for this request.`)
         console.log(dogData);
         let dogImageHTML = document.createElement("img");
         dogImageHTML.width = 500;
@@ -45,19 +42,19 @@ dogRequest
 
 
 
-async function getAndDisplayDogImage() {
-    let before = Date.now();
-    let dogResponse = await fetch("https://dog.ceo/api/breeds/image/random");
-    let dogData = await dogResponse.json();
+// async function getAndDisplayDogImage() {
+//     let before = Date.now();
+//     let dogResponse = await fetch("https://dog.ceo/api/breeds/image/random");
+//     let dogData = await dogResponse.json();
 
-    let timePassed = Date.now() - before;
-    console.log(`It took ${timePassed} for this request.`)
-    console.log(dogData);
-    let dogImageHTML = document.createElement("img");
-    dogImageHTML.width = 500;
-    dogImageHTML.src = dogData.message;
-    document.querySelector("body").appendChild(dogImageHTML);
-}
+//     let timePassed = Date.now() - before;
+//     console.log(`It took ${timePassed} for this request.`)
+//     console.log(dogData);
+//     let dogImageHTML = document.createElement("img");
+//     dogImageHTML.width = 500;
+//     dogImageHTML.src = dogData.message;
+//     document.querySelector("body").appendChild(dogImageHTML);
+// }
 
 // for (let i = 0; i < 5; i++) {
 //     getAndDisplayDogImage();
