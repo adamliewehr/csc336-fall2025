@@ -24,15 +24,15 @@ let imageURL;
 backImageRequest
     .then((backResponse) => { return backResponse.blob() })
     .then((backData) => {
-        imageURL = URL.createObjectURL(backData);
+        backImage = URL.createObjectURL(backData);
 
     })
     .catch(() => console.log("something went wrong with the back image"));
 
 // for displaying the back of the card! --------
 // let imgElement = document.createElement('img');
-//         imgElement.src = imageURL;
-//         document.body.appendChild(imgElement);
+// imgElement.src = backImage;
+// document.body.appendChild(imgElement);
 
 
 // shuffling --------
@@ -57,7 +57,8 @@ async function displayPlayer1Card() {
     // suit: SPADES
     // console.log(player1Hand[0]);
 
-    player1Down.push(player1Hand.pop());
+    try {
+        player1Down.push(player1Hand.pop());
 
 
     let cardElement = document.createElement("img");
@@ -66,37 +67,73 @@ async function displayPlayer1Card() {
     cardElement.src = player1Down[player1Down.length - 1].image;
     document.querySelector(".player1-card-placeholder").appendChild(cardElement);
 
-    console.log(player1Down[player1Down.length - 1]);
+    // console.log(player1Down[player1Down.length - 1]);
 
     updateCounts();
+
+    }
+    catch {
+        console.log("player 2 loses");
+    }
+
+    
 
 }
 
 async function displayPlayer2Card() {
 
-    player2Down.push(player2Hand.pop());
+    try {
+        player2Down.push(player2Hand.pop());
 
 
-    let cardElement = document.createElement("img");
-    cardElement.width = 90;
+        let cardElement = document.createElement("img");
+        cardElement.width = 90;
 
-    cardElement.src = player2Down[player2Down.length - 1].image;
-    document.querySelector(".player2-card-placeholder").appendChild(cardElement);
+        cardElement.src = player2Down[player2Down.length - 1].image;
+        document.querySelector(".player2-card-placeholder").appendChild(cardElement);
 
-    console.log(player2Down[player2Down.length - 1]);
+        // console.log(player2Down[player2Down.length - 1]);
 
-    updateCounts();
+        updateCounts();
 
+    } catch {
+        console.log("player 2 loses");
+    }
+
+    
+
+}
+
+function printInfo() {
+    console.log(player1Hand);
+    console.log(player2Hand);
+    console.log(player1Down);
+    console.log(player2Down);
 }
 
 
 function fight() {
 
-    player1Value = values.indexOf(player1Down[player1Down.length - 1].value);
-    player2Value = values.indexOf(player2Down[player2Down.length - 1].value);
+    try {
+        player1Value = values.indexOf(player1Down[player1Down.length - 1].value);
+
+
+    } catch {
+        console.log("player 1 loses");
+
+    }
+    try {
+        player2Value = values.indexOf(player2Down[player2Down.length - 1].value);
+
+
+    }catch {
+        console.log("player 2 loses");
+    }
+
 
     if (player1Value > player2Value) {
         player1Wins();
+
 
     }
     else if (player1Value < player2Value) {
@@ -104,20 +141,21 @@ function fight() {
 
     }
     else {
-        console.log("war!");
+        war();
     }
 
     updateCounts();
 
+    // printInfo();
 
 }
 
 
 function player1Wins() {
-    for (card in player1Down) {
+    while (player1Down.length > 0) {
         player1Hand.splice(0, 0, player1Down.pop());
     }
-    for (card in player2Down) {
+    while (player2Down.length > 0) {
         player1Hand.splice(0, 0, player2Down.pop());
     }
 
@@ -128,10 +166,10 @@ function player1Wins() {
 }
 
 function player2Wins() {
-    for (card in player1Down) {
+    while (player1Down.length > 0) {
         player2Hand.splice(0, 0, player1Down.pop());
     }
-    for (card in player2Down) {
+    while (player2Down.length > 0) {
         player2Hand.splice(0, 0, player2Down.pop());
     }
 
@@ -141,6 +179,39 @@ function player2Wins() {
 }
 
 function war() {
+
+
+    for (let i = 0; i < 3; i++) {
+        try {
+            let imgElement = document.createElement('img');
+            imgElement.width = 90;
+            imgElement.src = backImage;
+            document.querySelector(".player1-card-placeholder").appendChild(imgElement);
+            player1Down.push(player1Hand.pop());
+
+        } catch {
+            console.log("Player 1 loses");
+        }
+
+
+    }
+
+    for (let i = 0; i < 3; i++) {
+        try {
+            let imgElement = document.createElement('img');
+            imgElement.width = 90;
+            imgElement.src = backImage;
+            document.querySelector(".player2-card-placeholder").appendChild(imgElement);
+            player2Down.push(player2Hand.pop());
+
+        }
+        catch {
+            console.log("Player 2 loses");
+
+        }
+
+
+    }
 
 
 
@@ -154,13 +225,13 @@ async function deal() {
     let player1StartingHand = await player1Response.json();
 
     player1Hand = player1StartingHand.cards
-    console.log(player1Hand);
+    // console.log(player1Hand);
 
     let player2Response = await fetch(`https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=26`);
     let player2StartingHand = await player2Response.json();
 
     player2Hand = player2StartingHand.cards;
-    console.log(player1Hand);
+    // console.log(player1Hand);
 
     updateCounts();
 
