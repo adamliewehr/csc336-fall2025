@@ -1,14 +1,50 @@
+<!DOCTYPE html>
 <html>
 
 <head>
     <script src="script.js" defer></script>
-    <link rel="stylesheet" href="./style.css">
-
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <button id="testButton">Generate Card</button>
-    <button id="advice">Ask for advice</button>
+
+    <h1>Game of War</h1>
+    <h2 id ="whoWon"></h2>
+
+    <div id="game-board">
+
+        <div class="card-area">
+            <h2>Player 1</h2>
+            <div id="player1-card" class="card">
+                <p class="player1-card-placeholder"></p>
+            </div>
+            <p id = "count" class="player1Count">Cards: 0</p>
+        </div>
+
+        <div class="card-area">
+            <h2>Player 2</h2>
+            <div id="player2-card" class="card">
+                <p class="player2-card-placeholder"></p>
+            </div>
+            <p id = "count" class="player2Count">Cards: 0</p>
+        </div>
+
+    </div>
+
+    <div class="controls">
+        <button id="player1Button">Player 1 Draw</button>
+        <button id="fight">Fight!</button>
+        <button id="player2Button">Player 2 Draw</button>
+
+    </div>
+
+    <!-- <div class="controls"><button id="deal">Deal</button></div> -->
+
+    <div class="controls"><button id="advice">Ask for advice</button></div>
+
+    <div class="adviceArea">
+
+    </div>
 
 </body>
 
