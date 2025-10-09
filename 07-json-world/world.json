@@ -1,0 +1,326 @@
+{
+    "regions": [
+        {
+            "name": "The Shire", 
+            "climate": "moderate", 
+            "towns": [
+                {
+                    "name": "Hobbiton",
+                    "population": 1000, 
+                    "noteable_people": [
+                        {
+                            "name": "Frodo Baggins",
+                            "role": "Hobbit", 
+                            "items": [
+                                {
+                                    "name": "The One Ring",
+                                    "rarity": "legendary"
+                                }, 
+                                {
+                                    "name": "Sting",
+                                    "rarity": "epic"
+
+                                },
+                                {
+                                    "name": "Mithril Coat",
+                                    "rarity": "epic"
+
+                                }
+
+                            ]
+                        }, 
+                        {
+                            "name": "Bilbo",
+                            "role": "Hobbit",
+                            "items": [
+                                {
+                                    "name": "Red Book of Westmarch",
+                                    "rarity": "common"
+                                },
+                                {
+                                    "name": "treasure",
+                                    "rarity": "epic"
+                                }
+                            ]
+
+                        },
+                        {
+                            "name": "Samwise Gamgee",
+                            "role": "Gardener",
+                            "items": [
+                                {
+                                    "name": "hoe",
+                                    "rarity": "common"
+                                },
+                                {
+                                    "name": "sheers",
+                                    "rarity": "common"
+                                },
+                                {
+                                    "name": "shovel",
+                                    "rarity": "common"
+                                }
+
+                            ]
+                        }
+                        
+                    ]
+
+                }
+                
+            ]
+        },
+        {
+            "name": "The Misty Moutains",
+            "climate": "misty", 
+            "towns": [
+                {
+                    "name": "Khazad-dûm",
+                    "population": 10000,
+                    "noteable_people": [
+                        {
+                            "name": "Balrog",
+                            "role": "maiar",
+                            "items": [
+                                {
+                                    "name": "flaming whip",
+                                    "rarity": "legendary"
+                                }
+                            ]
+
+                        },
+                        {
+                            "name": "Cave Troll",
+                            "role": "troll",
+                            "items": [
+                                {
+                                    "name": "spear",
+                                    "rarity": "uncommon"
+                                },
+                                {
+                                    "name": "club",
+                                    "rarity": "uncommon"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Balin", 
+                            "role": "Warrior",
+                            "items": [
+                                {
+                                    "name": "axe",
+                                    "rarity": "uncommon"
+                                },
+                                {
+                                    "name": "armor",
+                                    "rarity": "common"
+                                },
+                                {
+                                    "name": "sheild",
+                                    "rarity": "uncommon"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Goblin Town",
+                    "population": 10000,
+                    "noteable_people": [
+                        {
+                            "name": "Great Goblin",
+                            "role": "king", 
+                            "items": [
+                                {
+                                    "name": "Golin Staff",
+                                    "rarity": "epic"
+                                }
+                            ]
+
+                        }, 
+                        {
+                            "name": "Gollum",
+                            "role": "ring bearer",
+                            "items": [
+                                {
+                                    "name": "loin cloth",
+                                    "rarity": "common"
+                                },
+                                {
+                                    "name": "grudge",
+                                    "rarity": "legendary"
+                                }
+                            ]
+
+                        },
+                        {
+                            "name": "Grinnah",
+                            "role": "servent",
+                            "items": [
+                                {
+                                    "name": "Sword",
+                                    "rarity": "uncommon"
+                                },
+                                {
+                                    "name": "whip", 
+                                    "rarity": "uncommon"
+                                }
+                            ]
+
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Gondor",
+            "climate": "cloudy", 
+            "towns": [
+                {
+                    "name": "Minas Tirith",
+                    "population": 20000,
+                    "noteable_people": [
+                        {
+                            "name": "Denathor",
+                            "role": "Steward",
+                            "items": [
+                                {
+                                    "name": "Palantir", 
+                                    "rarity": "legendary"
+
+                                },
+                                {
+                                    "name": "ring", 
+                                    "rarity": "uncommon"
+
+                                }
+                            ]
+
+                        },
+                        {
+                            "name": "Boromir",
+                            "role": "Captain of the White Tower",
+                            "items": [
+                                {
+                                    "name": "The Horn of Gondor",
+                                    "rarity": "rare"
+                                },
+                                {
+                                    "name": "sword",
+                                    "rarity": "common"
+                                },
+                                {
+                                    "name": "sheild",
+                                    "rarity": "common"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Osgiliath",
+                    "population": 3000,
+                    "noteable_people": [
+                        {
+                            "name": "Faramir",
+                            "role": "Captain of Gondor",
+                            "items": [
+                                {
+                                    "name": "sword",
+                                    "rarity": "common"
+                                },
+                                {
+                                    "name": "bow",
+                                    "rarity": "common"
+                                },
+                                {
+                                    "name": "arrows",
+                                    "rarity": "common"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Madril",
+                            "role": "advisor",
+                            "items": [
+                                {
+                                    "name": "sword",
+                                    "rarity": "common"
+                                },
+                                {
+                                    "name": "bow",
+                                    "rarity": "common"
+                                },
+                                {
+                                    "name": "leather bracers",
+                                    "rarity": "uncommon"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Minas Morgul",
+                    "population": 50000,
+                    "noteable_people": [
+                        {
+                            "name": "The Witch-king of Angmar",
+                            "role": "Leader of the Nazgûl",
+                            "items": [
+                                {
+                                    "name": "Morgul-blade",
+                                    "rarity": "legendary"
+                                },
+                                {
+                                    "name": "Great mace",
+                                    "rarity": "rare"
+                                },
+                                {
+                                    "name": "Black robes",
+                                    "rarity": "common"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Gorbag",
+                            "role": "Orc captain",
+                            "items": [
+                                {
+                                    "name": "scimitar",
+                                    "rarity": "uncommon"
+                                },
+                                {
+                                    "name": "Orc armor",
+                                    "rarity": "uncommon"
+                                },
+                                {
+                                    "name": "Helmet",
+                                    "rarity": "common"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Gothmog",
+                            "role": "Lieutenant",
+                            "items": [
+                                {
+                                    "name": "Mangled armor",
+                                    "rarity": "uncommon"
+                                },
+                                {
+                                    "name": "spear",
+                                    "rarity": "uncommon"
+                                },
+                                {
+                                    "name": "a face only a mother could love",
+                                    "rarity": "legendary"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+        
+    ]
+}
