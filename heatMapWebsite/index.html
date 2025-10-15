@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UHI Equity Explorer: V. Kelly Turner</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font family -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Light gray background */
+        }
+        /* Custom styles for the image stack */
+        .map-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures image covers the area without distortion */
+            transition: opacity 0.2s ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 sm:p-8">
+
+    <div class="max-w-6xl mx-auto bg-white shadow-xl rounded-xl p-6 lg:p-10">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-indigo-700">
+                Heat and History in LA: V. Kelly Turner's Research
+            </h1>
+            <p class="text-lg text-gray-500 mt-2">
+                Use the sliders below to explore the link between historical policy, tree cover, and current heat vulnerability.
+            </p>
+        </header>
+
+        <!-- Main Content Area (Map and Controls) -->
+        <div class="flex flex-col lg:flex-row gap-8">
+
+            <!-- Map Visualization (Left/Top) -->
+            <div class="lg:w-3/4 bg-gray-100 p-2 rounded-lg shadow-inner relative" style="padding-bottom: 75%;">
+                
+                <!-- The Aspect Ratio Box for Responsive Images (4:3 aspect ratio) -->
+                <div class="absolute inset-0">
+                    
+                    <!-- 1. BASE LAYER: Redlining Map (always visible, opacity 1) -->
+                    <img id="redliningMap" 
+                         src="redlining.png" 
+                         onerror="this.src='https://placehold.co/800x600/3357FF/FFFFFF?text=Error:+Check+redlining.png+Path'"
+                         alt="Historical Redlining Map" 
+                         class="map-layer z-10" 
+                         style="opacity: 1;">
+
+                    <!-- 2. MID LAYER: Tree Canopy Cover -->
+                    <img id="treeCoverMap" 
+                         src="tree.png" 
+                         onerror="this.src='https://placehold.co/800x600/33FF57/FFFFFF?text=Error:+Check+tree.png+Path'"
+                         alt="Tree Canopy Cover Map" 
+                         class="map-layer z-20" 
+                         style="opacity: 0.5;">
+
+                    <!-- 3. TOP LAYER: Temperature Map -->
+                    <img id="tempMap" 
+                         src="temp.png" 
+                         onerror="this.src='https://placehold.co/800x600/FF5733/FFFFFF?text=Error:+Check+temp.png+Path'"
+                         alt="Urban Heat Island Temperature Map" 
+                         class="map-layer z-30" 
+                         style="opacity: 0.5;">
+
+                </div>
+            </div>
+
+            <!-- Controls (Right/Bottom) -->
+            <div class="lg:w-1/4 space-y-6">
+                <h2 class="text-2xl font-semibold text-gray-700 border-b pb-2">Transparency Controls</h2>
+
+                <!-- Control 1: Temperature Map Opacity -->
+                <div class="p-4 bg-red-50 rounded-lg shadow-md">
+                    <label for="tempSlider" class="block text-lg font-medium text-red-700 mb-2">
+                        Temperature Map (UHI)
+                    </label>
+                    <input type="range" id="tempSlider" min="0" max="1" step="0.01" value="0.5" class="w-full h-2 bg-red-200 rounded-lg appearance-none cursor-pointer">
+                    <span id="tempValue" class="text-sm text-red-600 mt-1 block">50%</span>
+                </div>
+
+                <!-- Control 2: Tree Cover Opacity -->
+                <div class="p-4 bg-green-50 rounded-lg shadow-md">
+                    <label for="treeSlider" class="block text-lg font-medium text-green-700 mb-2">
+                        Tree Canopy Cover
+                    </label>
+                    <input type="range" id="treeSlider" min="0" max="1" step="0.01" value="0.5" class="w-full h-2 bg-green-200 rounded-lg appearance-none cursor-pointer">
+                    <span id="treeValue" class="text-sm text-green-600 mt-1 block">50%</span>
+                </div>
+
+                <!-- Control 3: Redlining Map Opacity -->
+                <div class="p-4 bg-blue-50 rounded-lg shadow-md">
+                    <label for="redliningSlider" class="block text-lg font-medium text-blue-700 mb-2">
+                        Historical Redlining (Base)
+                    </label>
+                    <input type="range" id="redliningSlider" min="0" max="1" step="0.01" value="1.0" class="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer">
+                    <span id="redliningValue" class="text-sm text-blue-600 mt-1 block">100%</span>
+                </div>
+
+                <!-- Legend/Instructions -->
+                <div class="text-sm text-gray-600 p-4 border-t pt-4">
+                    <p class="font-bold">Instructions:</p>
+                    <ul class="list-disc list-inside space-y-1 mt-1">
+                        <li>The Redlining Map is the base layer (set to 100% visibility).</li>
+                        <li>Slide the 'Temperature' slider up to see where the UHI effect is strongest.</li>
+                        <li>Slide the 'Tree Cover' slider up to see where green spaces are dense.</li>
+                        <li>Observe how areas with high heat often align with low tree cover and historical redlining.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- V. Kelly Turner Profile Section -->
+    <section class="max-w-6xl mx-auto mt-8 p-6 bg-white shadow-xl rounded-xl border border-indigo-200">
+        <h2 class="text-2xl font-bold text-indigo-700 mb-4 border-b pb-2">
+            Scientist Focus: V. Kelly Turner, Ph.D.
+        </h2>
+        
+        <div class="flex flex-col md:flex-row gap-6">
+            <!-- Portrait Image -->
+            <div class="w-full md:w-1/4 flex-shrink-0">
+                <img src="portrait.jpg" 
+                     onerror="this.src='https://placehold.co/200x250/AAAAAA/FFFFFF?text=Dr.+Turner+Portrait'"
+                     alt="Portrait of Dr. V. Kelly Turner" 
+                     class="w-full h-auto rounded-lg shadow-md object-cover border-2 border-indigo-300">
+            </div>
+
+            <!-- Enhanced Background Info -->
+            <div class="md:w-3/4 space-y-4 text-gray-700">
+                <p>
+                    Dr. Turner is an <b>Associate Professor of Urban Planning and Geography</b> at UCLA, where she also serves as the Associate Director of the Luskin Center for Innovation. Her highly interdisciplinary research draws from social-ecological systems to address urban planning and environmental problem domains.
+                </p>
+                <p>
+                    Her work on the Urban Heat Island (UHI) effect is a cornerstone of her career, focusing on providing <b>evidence-based policy and planning solutions to protect vulnerable populations from extreme heat.</b> She is a critical voice in the environmental justice space, using her geographic and climate data expertise to expose the <b>sociohistorical roots of heat inequality,</b> specifically showing how racist policies like redlining continue to result in higher temperatures and lower tree canopy cover in marginalized communities today.
+                </p>
+                <p class="font-semibold text-indigo-600">
+                    Key Contributions to UHI and Education:
+                </p>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li>Pioneering the concept of <b>"shade infrastructure"</b> (both trees and built elements) as a primary and immediate defense against heat exposure.</li>
+                    <li>Investigating <b>heat governance</b>—the policies and institutions that mitigate heat—and ensuring climate adaptation planning is integrated into city policy.</li>
+                    <li>Researching the <b>disproportionate impacts of heat on students and schools,</b> emphasizing that cooling resources are a basic need for educational equity.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Get references to elements
+            const tempMap = document.getElementById('tempMap');
+            const treeCoverMap = document.getElementById('treeCoverMap');
+            const redliningMap = document.getElementById('redliningMap');
+
+            const tempSlider = document.getElementById('tempSlider');
+            const treeSlider = document.getElementById('treeSlider');
+            const redliningSlider = document.getElementById('redliningSlider');
+
+            const tempValue = document.getElementById('tempValue');
+            const treeValue = document.getElementById('treeValue');
+            const redliningValue = document.getElementById('redliningValue');
+
+            // Array of objects to easily iterate over the elements
+            const mapControls = [
+                { map: tempMap, slider: tempSlider, valueDisplay: tempValue, name: 'temp' },
+                { map: treeCoverMap, slider: treeSlider, valueDisplay: treeValue, name: 'tree' },
+                { map: redliningMap, slider: redliningSlider, valueDisplay: redliningValue, name: 'redlining' }
+            ];
+
+            // 2. Define the update function
+            const updateOpacity = (control) => {
+                const opacity = parseFloat(control.slider.value);
+                control.map.style.opacity = opacity;
+                control.valueDisplay.textContent = `${Math.round(opacity * 100)}%`;
+            };
+
+            // 3. Attach event listeners
+            mapControls.forEach(control => {
+                // Initial update based on the default value
+                updateOpacity(control);
+
+                // Add event listener for real-time update
+                control.slider.addEventListener('input', () => updateOpacity(control));
+            });
+        });
+    </script>
+</body>
+</html>
