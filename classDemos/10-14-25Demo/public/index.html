@@ -1,0 +1,56 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h1>Hello World!</h1>
+        <form id = "dataForm">
+            Name: 
+            <input id = "nameInput" name="name" type="text">
+            Fav animal: 
+            <input type="text" name = "favoriteAnimal">
+            Fav food: 
+            <input type="text" name = "foodPreference">
+            
+            <button type = "submit"> SUBMIT </button>
+
+        </form>
+
+
+        <script>
+            let dataFormEl = document.querySelector("#dataForm");
+
+            dataFormEl.addEventListener("submit", async e => {
+                e.preventDefault();
+
+                let formData = new FormData(dataFormEl);
+                let entries = formData.entries();
+                // console.log(entries);
+
+                // let data = {};
+
+                // for (let entry of entries) {
+                //     data[entry[0]] = entry[1];
+                // }
+                let data = Object.fromEntries(formData.entries());
+                console.log(data);
+
+                let response = await fetch("/api/add", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(data)
+                });
+
+                let responseJSON = await response.json();
+                console.log(responseJSON.name);
+
+
+
+
+                // let nameInputEl = document.querySelector("#nameInput");
+                // console.log(nameInputEl.value);
+            });
+
+        </script>
+    </body>
+</html>
