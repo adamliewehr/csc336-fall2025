@@ -24,10 +24,6 @@
                 {
                   "name": "treasure",
                   "rarity": "epic"
-                },
-                {
-                  "name": "The One Ring",
-                  "rarity": "legendary"
                 }
               ]
             },
@@ -67,6 +63,10 @@
               "items": [
                 {
                   "name": "flaming whip",
+                  "rarity": "legendary"
+                },
+                {
+                  "name": "The One Ring",
                   "rarity": "legendary"
                 }
               ]

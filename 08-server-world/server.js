@@ -46,7 +46,7 @@ app.post("/changePossession", async (req, res) => {
                     if (item.name == "The One Ring" && people.name != personToGiveRingTo.name) {
                         people.items.splice(people.items.indexOf({"name": "The One Ring","rarity": "legendary"}), 1);
                         
-                    
+                
                     } 
                 }
             }
@@ -62,3 +62,5 @@ app.post("/changePossession", async (req, res) => {
     // send it back to the client.
     res.json(world);
 });
+
+
