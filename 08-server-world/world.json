@@ -11,12 +11,7 @@
             {
               "name": "Frodo Baggins",
               "role": "Hobbit",
-              "items": [
-                {
-                  "name": "The One Ring",
-                  "rarity": "legendary"
-                }
-              ]
+              "items": []
             },
             {
               "name": "Bilbo",
@@ -29,6 +24,10 @@
                 {
                   "name": "treasure",
                   "rarity": "epic"
+                },
+                {
+                  "name": "The One Ring",
+                  "rarity": "legendary"
                 }
               ]
             },
