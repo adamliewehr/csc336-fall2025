@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 import { useState, useEffect } from 'react';
 
-import Home from "./Home.jsx";
+import About from "./About.jsx";
 import ToDoList from "./todolist.jsx";
 import CatFactList from "./catFactList.jsx";
 
@@ -16,7 +16,7 @@ function App() {
         <nav>
           <Link to="/">Home</Link>
           <br />
-          <Link to="/todolist">To-Do List</Link>
+          <Link to="/about">About</Link>
           <br />
           <Link to="/catfacts">Cat Facts</Link>
 
@@ -25,8 +25,8 @@ function App() {
 
         <Routes>
 
-          <Route path="/" element={<Home/>}></Route>
-          <Route path="/todolist" element={<ToDoList/>}></Route>
+          <Route path="/" element={<ToDoList/>}></Route>
+          <Route path="/about" element={<About/>}></Route>
           <Route path="/catfacts" element={<CatFactList/>}></Route>
 
 
