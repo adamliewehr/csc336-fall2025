@@ -9,7 +9,7 @@ function CatFactList() {
         fetch("https://meowfacts.herokuapp.com/")
             .then(res => res.json())
             .then(data => {
-                setListOfFacts(prev => [...prev, data.data[0]]); // why did i have to do this?
+                setListOfFacts( [...listOfFacts, data.data[0]]);  // why did i have to do this?
             });
     };
 
