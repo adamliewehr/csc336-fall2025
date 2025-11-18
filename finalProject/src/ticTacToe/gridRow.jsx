@@ -16,7 +16,7 @@ function GridRow({ rowContents, rowIndex, lastRow, turn, changePlayer }) { // wi
 
     useEffect(() => {
         console.log(childData)
-        console.log(gameBoardData)
+        console.log(gameBoardData) // TODO: THIS IS BROKEN
         
 
 
