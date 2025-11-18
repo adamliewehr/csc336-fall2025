@@ -1,10 +1,30 @@
 import { useState } from 'react'
 
 import GridRow from './gridRow';
+import { useEffect } from 'react';
 
 function TicTacToe_GameBoard() {
 
     const [dimension, setDimension] = useState(3);
+    const [turn, setTurn] = useState(1);
+
+
+    // const [childData, setChildData] = useState(null);
+    // function handleChildData(data) {
+    //     setChildData(data);
+    // };
+
+    // useEffect(()=>{
+
+    //     // need to print out the game board in data format
+
+    //     let board = []
+
+
+        
+
+
+    // }, [turn])// when the turn changes, run the function
 
 
     let rows = []
@@ -12,11 +32,6 @@ function TicTacToe_GameBoard() {
     for (let i = 0; i < dimension; i++) {
         rows.push([]);
     }
-
-    // if square is in the top row, make the top of the border none,
-    // if the square is in the bottom row, make the bottom of the border none
-    // if the square is on the side, make the left/right border none
-    // anywhere else, the border should be on all sides
 
     for (let i = 0; i < dimension; i++) {
         for (let j = 0; j < dimension; j++) {
@@ -26,6 +41,10 @@ function TicTacToe_GameBoard() {
 
         }
 
+    }
+
+    function swapPlayer() {
+        setTurn(turn*-1);
     }
 
     return (
@@ -39,9 +58,11 @@ function TicTacToe_GameBoard() {
                 id="tttRowNumber"
                 placeholder="Dimension"
                 onChange={e => setDimension(e.target.value)} />
+
+
+            <h1>It's player {turn==1 ? 1 : 2} turn</h1>
+            {/* need to pass in turn and change it whenver the player(s) click the screen */}
             
-
-
             {
 
                 rows.map((row, index) => {
@@ -51,9 +72,13 @@ function TicTacToe_GameBoard() {
                     rowContents={row}
                     rowIndex = {index}
                     lastRow = { index==rows.length-1 ? true : false }
+                    turn = {turn}
+                    changePlayer = {swapPlayer}
+                    // rowData = {handleChildData}
+                    
                     ></GridRow>
 
-                } )
+                })
 
             }
 
