@@ -3,6 +3,9 @@ import { writeFile } from 'fs/promises';
 
 let uniqueTTProducts = []; // TODO: need to add this
 // or write a algorithm to calculate the numbers for me (do this)
+// should be numbers that are the product of two integers, but not past the number * 10
+// if you look at the board, numbers like 22, 33, 44, are not on the board
+// at least that is the pattern that I notice
 
 let numOfRows = 6;
 let numOfCols = 6;
@@ -34,7 +37,7 @@ for (let i = 0; i<numOfRows; i++) {
 
 }
 
-const jsonString = JSON.stringify(gameBoard, null, 2);
+const jsonString = JSON.stringify(gameBoard, null, 2); // 
 
 await writeFile('src/gameBoard.json', jsonString, 'utf-8');
 console.log('File saved.');
