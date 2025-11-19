@@ -5,13 +5,13 @@ function GridBox({ rowIndex, colIndex, lastRow, lastCol, turn, changePlayer, chi
 
     const [boxContents, setBoxContents] = useState("");
     const [clicked, setClicked] = useState(false);
-    const [cords, setcords] = useState([rowIndex, colIndex]);
+    const [cords, setCords] = useState([rowIndex, colIndex]);
 
     useEffect(() => {
         childData(
             {
-            "boxContents": boxContents,
-            "cords": cords
+            boxContents: boxContents,
+            cord: cords
             }
             
         );
@@ -51,9 +51,9 @@ function GridBox({ rowIndex, colIndex, lastRow, lastCol, turn, changePlayer, chi
 
             }
 
-        setClicked(true)
-        changePlayer()
-        
+        setClicked(true);
+        changePlayer();
+
 
         }
 

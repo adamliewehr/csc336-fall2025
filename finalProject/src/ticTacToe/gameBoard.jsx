@@ -5,26 +5,11 @@ import { useEffect } from 'react';
 
 function TicTacToe_GameBoard() {
 
-    const [dimension, setDimension] = useState(3);
+    const [dimension, setDimension] = useState(null);
     const [turn, setTurn] = useState(1);
 
+    // const [boardData, setBoardData] = useState(Array(dimension).fill([]));
 
-    // const [childData, setChildData] = useState(null);
-    // function handleChildData(data) {
-    //     setChildData(data);
-    // };
-
-    // useEffect(()=>{
-
-    //     // need to print out the game board in data format
-
-    //     let board = []
-
-
-        
-
-
-    // }, [turn])// when the turn changes, run the function
 
 
     let rows = []
@@ -44,13 +29,15 @@ function TicTacToe_GameBoard() {
     }
 
     function swapPlayer() {
-        setTurn(turn*-1);
+        setTurn(turn * -1);
     }
 
     return (
 
         <div>
             <h1>Tic Tac Toe</h1>
+
+            <h2>Enter the size of the game board desired!</h2>
 
             <input
                 type="text"
@@ -60,30 +47,34 @@ function TicTacToe_GameBoard() {
                 onChange={e => setDimension(e.target.value)} />
 
 
-            <h1>It's player {turn==1 ? 1 : 2} turn</h1>
+            <h1>
+                {!dimension ? "" : `It's player ${turn == 1 ? 1 : 2} turn`}
+            </h1>
             {/* need to pass in turn and change it whenver the player(s) click the screen */}
-            
+
             {
 
                 rows.map((row, index) => {
-                    
+
                     return <GridRow
-                    key={index*-1}
-                    rowContents={row}
-                    rowIndex = {index}
-                    lastRow = { index==rows.length-1 ? true : false }
-                    turn = {turn}
-                    changePlayer = {swapPlayer}
+                        key={index * -1}
+                        rowContents={row}
+                        rowIndex={index}
+                        lastRow={index == rows.length - 1 ? true : false}
+                        turn={turn}
+                        changePlayer={swapPlayer}
+                        dimension={rows.length}
+
                     // rowData = {handleChildData}
-                    
+
                     ></GridRow>
 
                 })
 
             }
 
-        
-            
+
+
 
 
         </div>

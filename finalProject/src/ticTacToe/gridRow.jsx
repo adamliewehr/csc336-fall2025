@@ -1,29 +1,52 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import GridBox from './gridBox'
-import { useEffect } from 'react';
 
-function GridRow({ rowContents, rowIndex, lastRow, turn, changePlayer }) { // will take in a list of GridNumbers
 
-    const [gameBoardData, setGameBoardData] = useState(Array(lastRow).fill(Array(lastRow).fill([0]).flat()));
-    
-    
-    const [childData, setChildData] = useState(null);
-    
+function GridRow({ rowContents, rowIndex, lastRow, turn, changePlayer, dimension }) { // will take in a list of GridBoxes
+
+    const [gridRowData, setGridRowData] = useState(Array(dimension).fill([""]).flat());
+
+    const [gridBoxData, setGridBoxData] = useState(null);
+
 
     function handleChildData(data) {
-        setChildData(data);
+        setGridBoxData(data);
     };
 
     useEffect(() => {
-        console.log(childData)
-        console.log(gameBoardData) // TODO: THIS IS BROKEN
-        
+
+        try {
+            setGridRowData(
+                gridRowData.map((box, index) => {
+
+                    if (index == gridBoxData.cord[1]) {
+                        return gridBoxData.boxContents;
+
+                    }
+                    return box;
+
+                    // return gridRowData[gridBoxData.cord[1]] = gridBoxData.boxContents;
 
 
-    }, [childData])
+
+                })
+
+            )
+
+            // console.log(gridRowData);
+            // console.log(`row: ${rowIndex}, ${gridRowData}`);
+            // console.log(gridBoxData);
+
+        }
+        catch {
+            console.log('ignore this goofy ahh react error');
+        }
+
+    }, [gridBoxData])
 
 
     return (
+
 
         <div className="flex-container">
 
@@ -38,15 +61,24 @@ function GridRow({ rowContents, rowIndex, lastRow, turn, changePlayer }) { // wi
                     lastCol={index == rowContents.length - 1 ? true : false}
                     turn={turn}
                     changePlayer={changePlayer}
-                    childData = {handleChildData}
-                >
+                    childData={handleChildData}>
 
                 </GridBox>
 
 
             })}
+            {/* FOR TESTING (ITS WORKING) */}
+            {gridRowData.map((item)=> {
+                    return <p>{item}</p>
+                })}
+
+
+
+
 
         </div>
+
+
 
     )
 }

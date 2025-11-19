@@ -17,12 +17,15 @@ function App() {
 
       <BrowserRouter> {/*basename={process.env.PUBLIC_URL was giving me an error*/}
         <nav>
+          <div className='flex-container'> {/* TODO: THIS IS ALSO BROKEN THE FLEX BOX CONTAINER*/}
+            
           <NavLink to="/">Home</NavLink>
-          <br />
           <NavLink to="/lineOfN">Line Of N</NavLink>
-          <br />
           <NavLink to="/ticTacToe">Tic Tac Toe</NavLink>
-          <br />
+
+          </div>
+          
+
           {/* <NavLink to="/pisPizza">π's Pizza</NavLink> */}
 
         </nav>
