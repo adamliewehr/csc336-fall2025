@@ -8,7 +8,41 @@ function TicTacToe_GameBoard() {
     const [dimension, setDimension] = useState(null);
     const [turn, setTurn] = useState(1);
 
-    // const [boardData, setBoardData] = useState(Array(dimension).fill([]));
+    const [boardData, setBoardData] = useState(Array(dimension).fill([])); 
+    const [rowData, setRowData] = useState(null);
+
+    function getRowData(data) {
+        setRowData(data);
+    };
+
+    useEffect(() => {
+
+        try {
+
+            // console.log(`from gameboard: ${boardData.row}`);
+
+            setBoardData(
+                boardData.map((row, i) => {
+                    console.log(row)
+                    if (rowData==null) {
+                        return []
+                    }
+                    if (i == rowData.index) {
+                        return rowData.rowData;
+                    }
+                    return row;
+
+                })
+            );
+
+            // console.log(boardData)
+
+        }
+        catch {
+            console.log('dumb react error')
+        }
+
+    }, [rowData])
 
 
 
@@ -64,6 +98,7 @@ function TicTacToe_GameBoard() {
                         turn={turn}
                         changePlayer={swapPlayer}
                         dimension={rows.length}
+                        rowData={getRowData}
 
                     // rowData = {handleChildData}
 

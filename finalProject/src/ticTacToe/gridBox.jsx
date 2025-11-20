@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 
 function GridBox({ rowIndex, colIndex, lastRow, lastCol, turn, changePlayer, childData}) {
 
-    const [boxContents, setBoxContents] = useState("");
+    const [boxContents, setBoxContents] = useState("_");
     const [clicked, setClicked] = useState(false);
     const [cords, setCords] = useState([rowIndex, colIndex]);
 
@@ -65,7 +65,7 @@ function GridBox({ rowIndex, colIndex, lastRow, lastCol, turn, changePlayer, chi
             onClick={handleClick}>
 
             <h1
-            >{boxContents}</h1>
+            >{boxContents=="_" ? "" : boxContents}</h1>
 
             {/* {clicked ? "clicked" : "not clicked"} */}
             

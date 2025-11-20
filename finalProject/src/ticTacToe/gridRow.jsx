@@ -2,14 +2,14 @@ import { useState, useEffect, useRef } from 'react'
 import GridBox from './gridBox'
 
 
-function GridRow({ rowContents, rowIndex, lastRow, turn, changePlayer, dimension }) { // will take in a list of GridBoxes
+function GridRow({ rowContents, rowIndex, lastRow, turn, changePlayer, dimension, rowData }) { // will take in a list of GridBoxes
 
-    const [gridRowData, setGridRowData] = useState(Array(dimension).fill([""]).flat());
+    const [gridRowData, setGridRowData] = useState(Array(dimension).fill(["_"]).flat());
 
     const [gridBoxData, setGridBoxData] = useState(null);
 
 
-    function handleChildData(data) {
+    function getBoxData(data) {
         setGridBoxData(data);
     };
 
@@ -32,6 +32,11 @@ function GridRow({ rowContents, rowIndex, lastRow, turn, changePlayer, dimension
                 })
 
             )
+
+            rowData({
+                index: rowIndex,
+                rowData: gridRowData
+            })
 
             // console.log(gridRowData);
             // console.log(`row: ${rowIndex}, ${gridRowData}`);
@@ -61,7 +66,7 @@ function GridRow({ rowContents, rowIndex, lastRow, turn, changePlayer, dimension
                     lastCol={index == rowContents.length - 1 ? true : false}
                     turn={turn}
                     changePlayer={changePlayer}
-                    childData={handleChildData}>
+                    childData={getBoxData}>
 
                 </GridBox>
 
