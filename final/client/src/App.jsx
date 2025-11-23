@@ -19,9 +19,9 @@ function App() {
         <nav>
           <div className='flex-container'> {/* TODO: THIS IS ALSO BROKEN THE FLEX BOX CONTAINER*/}
             
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/lineOfN">Line Of N</NavLink>
-          <NavLink to="/ticTacToe">Tic Tac Toe</NavLink>
+          <NavLink to="/" className="navLink">Home</NavLink>
+          {/* <NavLink to="/lineOfN">Line Of N</NavLink> */}
+          <NavLink to="/ticTacToe" className="navLink">Tic Tac Toe</NavLink>
 
           </div>
           
@@ -33,7 +33,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/lineOfN" element={<LineOfN_GameBoard />} />
+          {/* <Route path="/lineOfN" element={<LineOfN_GameBoard />} /> */}
           <Route path="/ticTacToe" element={<TicTacToe_GameBoard />} />
           {/* <Route path="/pisPizza" element={<PisPizza />} /> */}
 
