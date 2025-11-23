@@ -1,21 +1,20 @@
 import { useState, useEffect } from 'react'
 
+function GridBox({ boxContents, rowIndex, colIndex, turn, dimension, changePlayer, getBoxData }) {
 
-function GridBox({ rowIndex, colIndex, lastRow, lastCol, turn, changePlayer, childData}) {
-
-    const [boxContents, setBoxContents] = useState("_");
+    // const [boxContents, setBoxContents] = useState("_");
     const [clicked, setClicked] = useState(false);
-    const [cords, setCords] = useState([rowIndex, colIndex]);
+    // const [cords, setCords] = useState([rowIndex, colIndex]);
 
-    useEffect(() => {
-        childData(
-            {
-            boxContents: boxContents,
-            cord: cords
-            }
-            
-        );
-    }, [boxContents])
+    // useEffect(() => {
+    //     childData(
+    //         {
+    //         boxContents: boxContents,
+    //         cord: cords
+    //         }
+
+    //     );
+    // }, [boxContents])
 
 
     let boxStyle = {
@@ -30,9 +29,9 @@ function GridBox({ rowIndex, colIndex, lastRow, lastCol, turn, changePlayer, chi
         // anywhere else, the border should be on all sides
 
         borderTopStyle: rowIndex == 0 ? 'none' : 'solid',
-        borderBottomStyle: lastRow == true ? 'none' : 'solid',
+        borderBottomStyle: rowIndex == dimension - 1 ? 'none' : 'solid',
         borderLeftStyle: colIndex == 0 ? 'none' : 'solid',
-        borderRightStyle: lastCol == true ? 'none' : 'solid',
+        borderRightStyle: colIndex == dimension - 1 ? 'none' : 'solid',
 
 
     }
@@ -41,18 +40,34 @@ function GridBox({ rowIndex, colIndex, lastRow, lastCol, turn, changePlayer, chi
         // if its player 1s turn, we put a blue X in the gridNumber
 
         if (!clicked) {
-            if (turn==1) { // it's player 1s turn
+            if (turn == 1) { // it's player 1s turn
                 // put a blue X
-                setBoxContents("X");
+                // setBoxContents("X");
+
+                getBoxData(
+                    {
+                        boxContents: "X",
+                        cords: [rowIndex, colIndex]
+
+
+                    }
+                );
             }
             else { // player 2s turn
                 // put a red O
-                setBoxContents("O");
+                // setBoxContents("O");
+                getBoxData({
+                        boxContents: "O",
+                        cords: [rowIndex, colIndex]
+
+
+                    })
 
             }
 
-        setClicked(true);
-        changePlayer();
+            setClicked(true);
+            changePlayer();
+
 
 
         }
@@ -62,13 +77,15 @@ function GridBox({ rowIndex, colIndex, lastRow, lastCol, turn, changePlayer, chi
     return (
 
         <div style={boxStyle}
-            onClick={handleClick}>
+            onClick={handleClick}
+        >
 
             <h1
-            >{boxContents=="_" ? "" : boxContents}</h1>
+            >{boxContents == "" ? "" : boxContents}
+            </h1>
 
             {/* {clicked ? "clicked" : "not clicked"} */}
-            
+
 
             {/* ({rowIndex},
             {colIndex})

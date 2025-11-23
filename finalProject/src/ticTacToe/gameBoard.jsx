@@ -1,69 +1,93 @@
-import { useState } from 'react'
-
+import { useState, useEffect } from 'react'
 import GridRow from './gridRow';
-import { useEffect } from 'react';
 
 function TicTacToe_GameBoard() {
 
     const [dimension, setDimension] = useState(null);
+    // fill the array with something so the gameBoard can be initilized correctly
+    const [gameBoard, setGameBaord] = useState(Array(dimension).fill(Array(dimension).fill("")));
     const [turn, setTurn] = useState(1);
+    const [newData, setNewData] = useState({ boxContents: "", cords: [0, 0] });
 
-    const [boardData, setBoardData] = useState(Array(dimension).fill([])); 
-    const [rowData, setRowData] = useState(null);
+    // leared something:
 
-    function getRowData(data) {
-        setRowData(data);
-    };
+    // Incorrect way to create a matrix
+    // const initialMatrix = Array(3).fill(Array(3).fill(0));
+
+    //In this scenario, all three inner arrays are actually references to the exact same array in memory. 
+    // When you change a value in the "first row" (initialMatrix[0][0] = 1), you are changing the shared array, 
+    // so the change appears in all "rows" (which are all the same underlying object). 
+
+    // so we need to create the array this way:
+
+    // Array.from({ length: dimension }, () => Array(dimension).fill(""))
+
 
     useEffect(() => {
 
-        try {
+        //create a copy of gameBoard
+        let gameBoardCopy = [...gameBoard];
 
-            // console.log(`from gameboard: ${boardData.row}`);
+        gameBoardCopy[newData.cords[0]][newData.cords[1]] = newData.boxContents;
 
-            setBoardData(
-                boardData.map((row, i) => {
-                    console.log(row)
-                    if (rowData==null) {
-                        return []
-                    }
-                    if (i == rowData.index) {
-                        return rowData.rowData;
-                    }
-                    return row;
+        // console.log(gameBoardCopy);
 
-                })
-            );
+        setGameBaord(gameBoardCopy);
 
-            // console.log(boardData)
+        
 
-        }
-        catch {
-            console.log('dumb react error')
-        }
-
-    }, [rowData])
+        // console.log(gameBoard)
 
 
+    }, [newData])
 
-    let rows = []
+    useEffect(() => {
+        clearBoard()
 
-    for (let i = 0; i < dimension; i++) {
-        rows.push([]);
+    }, [dimension])
+
+    function clearBoard() {
+        // initilize the array properly
+        let array = Array.from({ length: dimension }, () => Array(dimension).fill(""));
+        setGameBaord(array)
+        console.log("Cleared")
     }
 
-    for (let i = 0; i < dimension; i++) {
-        for (let j = 0; j < dimension; j++) {
-            rows[i].push(
-                ""
-            )
+    // useEffect(() => {
 
-        }
+    //     try {
 
-    }
+    //         // console.log(`from gameboard: ${boardData.row}`);
 
-    function swapPlayer() {
+    //         setBoardData(
+    //             boardData.map((row, i) => {
+    //                 console.log(row)
+    //                 if (rowData==null) {
+    //                     return []
+    //                 }
+    //                 if (i == rowData.index) {
+    //                     return rowData.rowData;
+    //                 }
+    //                 return row;
+
+    //             })
+    //         );
+
+    //         // console.log(boardData)
+
+    //     }
+    //     catch {
+    //         console.log('dumb react error')
+    //     }
+
+    // }, [rowData])
+
+    function changePlayer() {
         setTurn(turn * -1);
+    }
+
+    function getBoxData(data) {
+        setNewData(data)
     }
 
     return (
@@ -75,10 +99,18 @@ function TicTacToe_GameBoard() {
 
             <input
                 type="text"
-                name="tttRowNumber"
-                id="tttRowNumber"
+                name="dimensionInput"
+                id="dimensionInput"
                 placeholder="Dimension"
-                onChange={e => setDimension(e.target.value)} />
+                onChange={e => setDimension(isNaN(parseInt(e.target.value, 10)) ? 1 : parseInt(e.target.value, 10))} />
+            {/* the fact that isNaN(typeof parseInt(input, 10)) ? 1 : parseInt(input, 10) doesn't work is actually insane. JavaScript is an interesting language*/}
+
+            <input type="button"
+                value="Clear Board"
+                name="clearBoard"
+                id="clearBoard"
+                onClick={clearBoard} />
+
 
 
             <h1>
@@ -88,27 +120,24 @@ function TicTacToe_GameBoard() {
 
             {
 
-                rows.map((row, index) => {
+                gameBoard.map((row, index) => {
 
                     return <GridRow
                         key={index * -1}
                         rowContents={row}
                         rowIndex={index}
-                        lastRow={index == rows.length - 1 ? true : false}
+                        dimension={gameBoard.length}
                         turn={turn}
-                        changePlayer={swapPlayer}
-                        dimension={rows.length}
-                        rowData={getRowData}
+                        changePlayer={changePlayer}
+                        getBoxData={getBoxData}
 
-                    // rowData = {handleChildData}
+
 
                     ></GridRow>
 
                 })
 
             }
-
-
 
 
 
