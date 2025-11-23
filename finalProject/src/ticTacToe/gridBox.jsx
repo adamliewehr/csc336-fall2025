@@ -2,20 +2,7 @@ import { useState, useEffect } from 'react'
 
 function GridBox({ boxContents, rowIndex, colIndex, turn, dimension, changePlayer, getBoxData }) {
 
-    // const [boxContents, setBoxContents] = useState("_");
     const [clicked, setClicked] = useState(false);
-    // const [cords, setCords] = useState([rowIndex, colIndex]);
-
-    // useEffect(() => {
-    //     childData(
-    //         {
-    //         boxContents: boxContents,
-    //         cord: cords
-    //         }
-
-    //     );
-    // }, [boxContents])
-
 
     let boxStyle = {
         width: "100px",
@@ -37,13 +24,11 @@ function GridBox({ boxContents, rowIndex, colIndex, turn, dimension, changePlaye
     }
 
     const handleClick = () => {
-        // if its player 1s turn, we put a blue X in the gridNumber
+
 
         if (!clicked) {
             if (turn == 1) { // it's player 1s turn
-                // put a blue X
-                // setBoxContents("X");
-
+                // put an X
                 getBoxData(
                     {
                         boxContents: "X",
@@ -54,8 +39,7 @@ function GridBox({ boxContents, rowIndex, colIndex, turn, dimension, changePlaye
                 );
             }
             else { // player 2s turn
-                // put a red O
-                // setBoxContents("O");
+                // put an O
                 getBoxData({
                         boxContents: "O",
                         cords: [rowIndex, colIndex]

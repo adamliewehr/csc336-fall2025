@@ -53,35 +53,6 @@ function TicTacToe_GameBoard() {
         console.log("Cleared")
     }
 
-    // useEffect(() => {
-
-    //     try {
-
-    //         // console.log(`from gameboard: ${boardData.row}`);
-
-    //         setBoardData(
-    //             boardData.map((row, i) => {
-    //                 console.log(row)
-    //                 if (rowData==null) {
-    //                     return []
-    //                 }
-    //                 if (i == rowData.index) {
-    //                     return rowData.rowData;
-    //                 }
-    //                 return row;
-
-    //             })
-    //         );
-
-    //         // console.log(boardData)
-
-    //     }
-    //     catch {
-    //         console.log('dumb react error')
-    //     }
-
-    // }, [rowData])
-
     function changePlayer() {
         setTurn(turn * -1);
     }
