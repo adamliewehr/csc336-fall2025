@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import GridRow from './gridRow';
 
 function TicTacToe_GameBoard() {
-
     const [dimension, setDimension] = useState(null);
     // fill the array with something so the gameBoard can be initilized correctly
     const [gameBoard, setGameBaord] = useState(Array(dimension).fill(Array(dimension).fill("")));

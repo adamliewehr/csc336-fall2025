@@ -1,0 +1,38 @@
+// Authentication
+POST /api/auth/register  // Create account
+POST /api/auth/login     // Login
+
+Both of the authentication endpoints will take a username and password. 
+This will probably pass a JSON object like this {"username": username, "password": password}
+MongoDB will check if the username already exists, if so, login the user if both are correct
+If not correct, prompt the user for a new password attempt
+
+If the username is new, prompt the user to create a new account
+
+     
+// Game Management
+GET  /api/games          // List available games
+
+A single game object returned might look something like this:
+[
+  {
+    "id": "1",
+    "players": ["user1"],
+    "currentTurn": "user1",
+    "status": "open",
+    "board" : ...
+  },
+  {
+    "id": "2",
+    "players": ["user5", "user6"],
+    "status": "playing"
+  }
+]
+
+POST /api/games          // Create new game
+GET  /api/games/:id      // Get game state
+POST /api/games/:id/join // Join existing game
+PUT  /api/games/:id/move // Make a move
+     
+// Game Discovery
+GET  /api/games/waiting  // Games waiting for 2nd player

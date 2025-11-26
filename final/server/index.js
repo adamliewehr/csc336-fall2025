@@ -1,0 +1,109 @@
+import 'dotenv/config'; // Loads the .env file
+
+import express from 'express';
+import mongoose from 'mongoose'; // mongoDB connection
+import bcrypt from 'bcrypt'; // for hasing passwords
+import jwt from 'jsonwebtoken'; // to create a secure id for users? i think?
+import cors from 'cors'; 
+
+import User from './models/user.js'; // user model for MongoDB
+
+
+import authMiddleware from './middleware/authMiddleware.js'; 
+
+const app = express();
+app.use(express.json())
+app.use(cors()); // Allows requests from your client's origin
+const PORT = 3001;
+
+// connection to MongoDB with then catch
+mongoose.connect(process.env.MONGO_URI).then(() => {
+    console.log("connected to mongoDB");
+
+    app.listen(PORT, () => {
+        console.log(`Server listening on port ${PORT}`);
+    });
+
+}).catch((error) => {
+    console.error('mongoDB connection error:', error);
+    // Stop the Node.js process if the connection fails
+    process.exit(1);
+});
+
+
+
+app.post('/api/auth/register', async (req, res) => { // needs to be async since we are connecting to a db
+    const { username, password } = req.body; // this is what we get from the form
+
+    const existingUser = await User.findOne({ username }); // finds a username to check if its unique in the MongoDB data base
+
+    if (existingUser) {
+        // 409 Conflict status code means the resource already exists
+        return res.status(409).send({ message: 'Username already taken.' });
+    }
+
+    // the username is unique
+    // hash the password
+    const saltRounds = 10; // The cost factor for hashing—10 is standard
+    // this is the strength of the hashing I think
+    const hashedPassword = await bcrypt.hash(password, saltRounds); // line that hashes the password
+
+    // Create and save the new User document to MongoDB
+    // We use the imported 'User' model here that we imported earlier
+    const newUser = await User.create({
+        username,
+        password: hashedPassword, // Store the hashed password
+    });
+
+    // Success response (201 Created)
+    res.status(201).send({ message: 'Account created successfully!', userId: newUser._id });
+
+});
+
+app.post('/api/auth/login', async (req, res) => {
+    const { username, password } = req.body; // Object Destructuring
+    // this is what is sent from the form on the login page
+
+    // Find the user by username
+    const user = await User.findOne({ username });
+
+    // Check for user existence
+    if (user == null) {
+
+        return res.status(401).send({ message: 'Invalid credentials' });
+        // wanted to use User does not exist
+        // but was told to use Invalid credentials for security reasons, makes sense
+    }
+
+
+    // Compare passwords 
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+        // If the passwords don't match, send the same generic error
+        return res.status(401).send({ message: 'Invalid credentials.' });
+    }
+
+    // now we create a JSON web token
+    // we install jsonwebtoken using "npm install jsonwebtoken"
+    // to make this secure, we use a mongoDB perpenement ID (_id)
+
+    // Create the JWT
+    const token = jwt.sign(
+        { userId: user._id }, // encoding the unique ID
+        process.env.JWT_SECRET, // The key in .env 
+        { expiresIn: '1h' }     // Token expires after 1 hour
+    );
+
+    // Success response (200 OK)
+    res.status(200).send({
+        token: token,
+        username: user.username // Send the username back
+    });
+});
+
+
+
+app.put('/api/games/:id/move', authMiddleware, async (req, res) => {
+    // ... game logic code goes here ...
+});
