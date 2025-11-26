@@ -8,6 +8,7 @@ import LineOfN_GameBoard from './lineOfN/gameBoard.jsx'
 import Home from './Home.jsx';
 import TicTacToe_GameBoard from './ticTacToe/gameBoard.jsx';
 import Login from './login.jsx';
+import Register from './Register.jsx';
 // import PisPizza from './pisPizza/PisPizza.jsx';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             {/* <NavLink to="/lineOfN">Line Of N</NavLink> */}
             <NavLink to="/ticTacToe" className="navLink">Tic Tac Toe</NavLink>
             <NavLink to="/login" className="navLink">Login</NavLink>
+            <NavLink to="/register" className="navLink">Register</NavLink>
 
           </div>
 
@@ -38,6 +40,7 @@ function App() {
           {/* <Route path="/lineOfN" element={<LineOfN_GameBoard />} /> */}
           <Route path="/ticTacToe" element={<TicTacToe_GameBoard />} />
           <Route path="/login" element={<Login />} />
+           <Route path="/register" element={<Register />} />
 
           {/* <Route path="/pisPizza" element={<PisPizza />} /> */}
 
