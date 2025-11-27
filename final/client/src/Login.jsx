@@ -34,17 +34,27 @@ function Login() {
 
             const data = await response.json();
 
-            // 🔑 Success: Store the JWT and username
+            // Success -> Store the JWT and username
             localStorage.setItem('authToken', data.token); // Store the JWT
             localStorage.setItem('username', data.username); // Store username for display
 
             console.log('Login Successful! Token stored.');
-            // ➡️ Next: Redirect user to game lobby (e.g., navigate('/lobby'))
+            alert("Login successful! Routing you to the home page.")
+            // Next: Redirect user to game lobby (e.g., navigate('/lobby'))
 
         } catch (error) {
             console.error('Error logging in:', error.message);
         }
     };
+
+    function showPassword() {
+        let password = document.getElementById("password");
+        if (password.type === "password") {
+            password.type = "text";
+        } else {
+            password.type = "password";
+        }
+    }
 
 
     return (
@@ -81,6 +91,10 @@ function Login() {
                     value={loginInfo.password}
                     onChange={handleChange}
                 />
+
+                <br />
+
+                <input type="checkbox" onClick={showPassword} />Show Password
 
 
                 <br />

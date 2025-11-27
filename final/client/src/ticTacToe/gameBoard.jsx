@@ -35,7 +35,7 @@ function TicTacToe_GameBoard() {
 
         
 
-        // console.log(gameBoard)
+        console.log(gameBoard)
 
 
     }, [newData])

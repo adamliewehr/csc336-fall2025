@@ -4,12 +4,13 @@ import express from 'express';
 import mongoose from 'mongoose'; // mongoDB connection
 import bcrypt from 'bcrypt'; // for hasing passwords
 import jwt from 'jsonwebtoken'; // to create a secure id for users? i think?
-import cors from 'cors'; 
+import cors from 'cors';
 
 import User from './models/user.js'; // user model for MongoDB
+import Game from './models/Game.js';
 
 
-import authMiddleware from './middleware/authMiddleware.js'; 
+import authMiddleware from './middleware/authMiddleware.js';
 
 const app = express();
 app.use(express.json())
@@ -92,7 +93,7 @@ app.post('/api/auth/login', async (req, res) => {
     const token = jwt.sign(
         { userId: user._id }, // encoding the unique ID
         process.env.JWT_SECRET, // The key in .env 
-        { expiresIn: '1h' }     // Token expires after 1 hour
+        // { expiresIn: '1h' }     // Token expires after 1 hour
     );
 
     // Success response (200 OK)
@@ -102,8 +103,34 @@ app.post('/api/auth/login', async (req, res) => {
     });
 });
 
+app.get("/api/users/me", authMiddleware, async (req, res) => {
 
+    const user = await User.findById(req.userId).select('-password'); // exclude password from query
 
-app.put('/api/games/:id/move', authMiddleware, async (req, res) => {
-    // ... game logic code goes here ...
+    res.send({ userInfo: user }); // Sends string
+
 });
+
+
+app.post("/api/postGame", authMiddleware, async (req, res) => {
+    // res.send({test: "test"})
+    const {username, gameName, gameSpecifications} = req.body;
+
+    // console.log(username);
+    // console.log(gameName);
+    // console.log(gameSpecifications);
+
+    const newGame = await Game.create({
+        createdBy: username,
+        name: gameName,
+        gameSpecifications: gameSpecifications,
+    });
+
+
+});
+
+// app.get("/api/getGames", authMiddleware, (req, res) => {
+
+
+
+// });

@@ -18,8 +18,6 @@ function Register() {
     async function handleSubmit(e) {
         e.preventDefault(); // Stops the page reload
 
-
-
         try {
             const response = await fetch('http://localhost:3001/api/auth/register', {
                 method: 'POST',
@@ -34,24 +32,29 @@ function Register() {
 
             const data = await response.json();
 
-            // 🔑 Success: Store the JWT and username
-            localStorage.setItem('authToken', data.token); // Store the JWT
-            localStorage.setItem('username', data.username); // Store username for display
-
-            console.log('Login Successful! Token stored.');
-            // ➡️ Next: Redirect user to game lobby (e.g., navigate('/lobby'))
+            console.log('Registration Successful! Please log in.');
+            alert("Registration Successful! Please log in.")
 
         } catch (error) {
-            console.error('Error logging in:', error.message);
+            console.error('Error during registration:', error.message);
         }
     };
+
+    function showPassword() {
+        let password = document.getElementById("password");
+        if (password.type === "password") {
+            password.type = "text";
+        } else {
+            password.type = "password";
+        }
+    }
 
 
     return (
 
         <div>
 
-            <h1>Log in here!</h1>
+            <h1>Register</h1>
 
 
             <form onSubmit={handleSubmit}>
@@ -83,6 +86,8 @@ function Register() {
                 />
 
 
+                <br />
+                <input type="checkbox" onClick={showPassword} />Show Password
                 <br />
 
 
