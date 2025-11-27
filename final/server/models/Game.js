@@ -17,9 +17,14 @@ const GameSchema = new mongoose.Schema({
         type: Object,
         required: true
     },
-    gameState: {
-        type: Object,
-        required: false
+    gameState: { // pending, active, complete 
+        type: String,
+        required: true
+    },
+    gameBoard: {
+        type: Array,
+        required: true
+
     }
 
 

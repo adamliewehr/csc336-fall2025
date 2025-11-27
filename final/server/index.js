@@ -93,7 +93,7 @@ app.post('/api/auth/login', async (req, res) => {
     const token = jwt.sign(
         { userId: user._id }, // encoding the unique ID
         process.env.JWT_SECRET, // The key in .env 
-        // { expiresIn: '1h' }     // Token expires after 1 hour
+        { expiresIn: '1h' }     // Token expires after 1 hour
     );
 
     // Success response (200 OK)
@@ -114,7 +114,7 @@ app.get("/api/users/me", authMiddleware, async (req, res) => {
 
 app.post("/api/postGame", authMiddleware, async (req, res) => {
     // res.send({test: "test"})
-    const {username, gameName, gameSpecifications} = req.body;
+    const {username, gameName, gameSpecifications, gameState, gameBoard} = req.body;
 
     // console.log(username);
     // console.log(gameName);
@@ -124,13 +124,17 @@ app.post("/api/postGame", authMiddleware, async (req, res) => {
         createdBy: username,
         name: gameName,
         gameSpecifications: gameSpecifications,
+        gameState: gameState,
+        gameBoard: gameBoard
     });
 
 
 });
 
-// app.get("/api/getGames", authMiddleware, (req, res) => {
+app.get("/api/getGames", authMiddleware, (req, res) => {
 
 
+    res.send({ gameList: "test" });
 
-// });
+
+});

@@ -1,13 +1,23 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 function UserProfile() {
+
+    const navigate = useNavigate();
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+        // navigate('/login', { replace: true }) prevents the user from hitting 'back'
+        navigate('/login', { replace: true, state: { message: "Access denied. Please log in." } });
+        return null; // Component returns null so it doesn't try to render JSX
+    }
 
     const [userInfo, setUserInfo] = useState({});
 
     useEffect(() => {
 
         async function getUserData() {
-            const token = localStorage.getItem('authToken');
+
 
             if (!token) {
                 console.error('User not logged in. ');

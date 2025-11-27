@@ -1,4 +1,5 @@
 
+
 import { useState, useEffect } from "react"
 
 function GamePage() {
@@ -8,16 +9,80 @@ function GamePage() {
     const currentUsername = localStorage.getItem('username');
     const [gameInfo, setGameInfo] = useState({});
 
-    useEffect(() => {
+    const [currentGames, setCurrentGames] = useState([]);
 
-        setGameInfo({
-            "username": currentUsername,
-            "gameName": dropdownValue,
-            gameSpecifications: { 
-                "tttDimension": tttDimension 
+
+    const [time, setTime] = useState(Date.now());
+
+    useEffect(() => {
+        
+        getAllGames();
+        
+
+
+    }, []);
+
+    async function getAllGames() {
+
+        const token = localStorage.getItem('authToken');
+
+        if (!token) {
+            console.error('User not logged in. ');
+            alert("user not logged in")
+            return {}
+        }
+
+        try {
+
+            const response = await fetch('http://localhost:3001/api/getGames', {
+                method: 'GET',
+                headers: {
+                    // Attach the token to the Authorization header
+                    'Authorization': `Bearer ${token}` //  THE authMiddleware IS WHAT REQUIRES THIS
+                }
+            })
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch user data. Status: ${response.status}`);
             }
 
-        })
+            const data = await response.json();
+
+            console.log(data)
+
+            return data;
+
+        } catch (e) {
+            console.log(e)
+        }
+
+
+
+    }
+
+
+
+
+    useEffect(() => {
+
+        if (dropdownValue == "Tic-Tac-Toe") {
+            const N = parseInt(tttDimension);
+            const newTTTBoard = Array.from({ length: N }, () => Array(N).fill(""));
+
+            setGameInfo({
+                "username": currentUsername,
+                "gameName": dropdownValue,
+                "gameSpecifications": {
+                    "tttDimension": tttDimension
+                },
+                "gameState": "pending",
+                "gameBoard": newTTTBoard
+
+
+            })
+        };
+
+
 
     }, [tttDimension])
 
@@ -94,6 +159,8 @@ function GamePage() {
 
 
             <h1>Game List: </h1>
+
+
 
         </div>
     )

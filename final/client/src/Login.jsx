@@ -1,7 +1,32 @@
 import { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 
 function Login() {
+
+    const navigate = useNavigate();
+
+
+
+
+    const location = useLocation();
+    const [logoutMessage, setLogoutMessage] = useState(null);
+
+    useEffect(() => {
+        // Does if the state object exists and has the message
+        if (location.state && location.state.message) {
+            setLogoutMessage(location.state.message);
+
+            // This prevents the message from flashing if they use the browser back/forward buttons
+            window.history.replaceState({}, document.title);
+
+
+        }
+
+
+    }, [location]);
 
     const [loginInfo, setLoginInfo] = useState({
         username: '',
@@ -40,7 +65,10 @@ function Login() {
 
             console.log('Login Successful! Token stored.');
             alert("Login successful! Routing you to the home page.")
+
             // Next: Redirect user to game lobby (e.g., navigate('/lobby'))
+            navigate('/');
+            window.location.reload(false);
 
         } catch (error) {
             console.error('Error logging in:', error.message);
@@ -60,6 +88,16 @@ function Login() {
     return (
 
         <div>
+
+            {logoutMessage && (
+                <div style={{
+                    color: 'green',
+                    padding: '10px',
+                    marginBottom: '15px'
+                }}>
+                    {logoutMessage} Bye!
+                </div>
+            )}
 
             <h1>Log in here!</h1>
 
