@@ -131,10 +131,13 @@ app.post("/api/postGame", authMiddleware, async (req, res) => {
 
 });
 
-app.get("/api/getGames", authMiddleware, (req, res) => {
+app.get("/api/getGames", authMiddleware, async (req, res) => {
+
+    const listOfgames = await Game.find({$or: [ {gameState: "pending"}, {gameState: "active"},]});
+    res.send(listOfgames);
 
 
-    res.send({ gameList: "test" });
+    // res.send({test: "test"});
 
 
 });

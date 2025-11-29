@@ -10,17 +10,26 @@ function GamePage() {
     const [gameInfo, setGameInfo] = useState({});
 
     const [currentGames, setCurrentGames] = useState([]);
+    const [count, setCount] = useState(0);
 
-
-    const [time, setTime] = useState(Date.now());
 
     useEffect(() => {
-        
-        getAllGames();
-        
 
+        getAllGames().then(gamesList => {
+            if (gamesList) {
+                setCurrentGames(gamesList);
+            }
+        })
+            .catch(error => {
 
-    }, []);
+                console.error("Error loading games list:", error);
+            });
+
+    }, [count]);
+
+    function getGames() {
+        setCount(count + 1);
+    }
 
     async function getAllGames() {
 
@@ -47,8 +56,6 @@ function GamePage() {
             }
 
             const data = await response.json();
-
-            console.log(data)
 
             return data;
 
@@ -160,6 +167,41 @@ function GamePage() {
 
             <h1>Game List: </h1>
 
+            <input type="button"
+                value="Reload Games"
+                onClick={getGames} />
+
+
+            {currentGames.map((game, index) => {
+
+                // console.log(game)
+                // if the game is pending, make it one color
+                // if its active, make it another color
+
+                return (
+                    <div
+                        key={index}
+                        style={
+
+                            {
+                                border: `5px solid ${game.gameState == "pending" ? "green" : "red"}`
+                            }
+
+
+                        }
+                    >
+                        Created by: {game.createdBy}
+                        <br />
+                        Game: {game.name}
+                        <br />
+                        {game.name == "Tic-Tac-Toe" ? `Dimension: ${game.gameSpecifications.tttDimension}` : null}
+
+                    </div>
+                )
+
+
+
+            })}
 
 
         </div>
