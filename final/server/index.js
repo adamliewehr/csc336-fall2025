@@ -17,7 +17,7 @@ import authMiddleware from './middleware/authMiddleware.js';
 const app = express();
 app.use(express.json())
 app.use(cors()); // Allows requests from your client's origin
-const PORT = 3001;
+const PORT = 3000;
 
 // connection to MongoDB with then catch
 mongoose.connect(process.env.MONGO_URI).then(() => {
@@ -31,10 +31,6 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
     console.error('mongoDB connection error:', error);
     // Stop the Node.js process if the connection fails
     process.exit(1);
-});
-
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 
