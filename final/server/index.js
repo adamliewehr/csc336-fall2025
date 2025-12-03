@@ -12,6 +12,8 @@ import Game from './models/Game.js';
 
 import authMiddleware from './middleware/authMiddleware.js';
 
+
+
 const app = express();
 app.use(express.json())
 app.use(cors()); // Allows requests from your client's origin
@@ -31,6 +33,17 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
     process.exit(1);
 });
 
+
+// trouble shooting render
+import path from 'path';
+
+// Add this line to serve static files from the public directory
+app.use(express.static('public'));
+
+// Add this catch-all route to serve your React app for any non-API routes
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 
 app.post('/api/auth/register', async (req, res) => { // needs to be async since we are connecting to a db
@@ -188,7 +201,7 @@ app.get("/api/getGameInfo/:id", authMiddleware, async (req, res) => {
 
     const gameId = req.params.id; // The ID of the game being accessed
 
-    const gameInfo = await Game.findOne({ _id: gameId }); 
+    const gameInfo = await Game.findOne({ _id: gameId });
     // .find() returns an array, even if there's only one object
     // .findOne returns an object
 
