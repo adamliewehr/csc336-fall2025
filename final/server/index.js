@@ -33,6 +33,10 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
     process.exit(1);
 });
 
+app.get('/', (req, res) => {
+  res.send('API Status: Running');
+});
+
 
 app.post('/api/auth/register', async (req, res) => { // needs to be async since we are connecting to a db
     const { username, password } = req.body; // this is what we get from the form
