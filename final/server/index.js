@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt'; // for hasing passwords
 import jwt from 'jsonwebtoken'; // to create a secure id for users? i think?
 import cors from 'cors';
 
-import User from './models/user.js'; // user model for MongoDB
+import User from './models/User.js'; // user model for MongoDB
 import Game from './models/Game.js';
 
 
