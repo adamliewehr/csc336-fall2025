@@ -18,6 +18,7 @@ const app = express();
 app.use(express.json())
 app.use(cors()); // Allows requests from your client's origin
 const PORT = 3000;
+app.use(express.static('public'));
 
 // connection to MongoDB with then catch
 mongoose.connect(process.env.MONGO_URI).then(() => {
