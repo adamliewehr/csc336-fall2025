@@ -33,15 +33,7 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
     process.exit(1);
 });
 
-
-// trouble shooting render
-import path from 'path';
-
-// Add this line to serve static files from the public directory
-app.use(express.static('public'));
-
-// Add this catch-all route to serve your React app for any non-API routes
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
