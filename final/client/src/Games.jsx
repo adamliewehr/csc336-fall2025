@@ -1,6 +1,7 @@
 
 
 import { useState, useEffect } from "react"
+import { useNavigate } from 'react-router-dom';
 
 function GamePage() {
 
@@ -9,8 +10,11 @@ function GamePage() {
     const currentUsername = localStorage.getItem('username');
     const [gameInfo, setGameInfo] = useState({});
 
+
     const [currentGames, setCurrentGames] = useState([]);
     const [count, setCount] = useState(0);
+
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -43,7 +47,7 @@ function GamePage() {
 
         try {
 
-            const response = await fetch('http://localhost:3001/api/getGames', {
+            const response = await fetch('/api/getGames', {
                 method: 'GET',
                 headers: {
                     // Attach the token to the Authorization header
@@ -67,14 +71,13 @@ function GamePage() {
 
     }
 
-
-
-
     useEffect(() => {
 
         if (dropdownValue == "Tic-Tac-Toe") {
             const N = parseInt(tttDimension);
             const newTTTBoard = Array.from({ length: N }, () => Array(N).fill(""));
+            const players = []
+            players.push(currentUsername)
 
             setGameInfo({
                 "username": currentUsername,
@@ -83,10 +86,14 @@ function GamePage() {
                     "tttDimension": tttDimension
                 },
                 "gameState": "pending",
-                "gameBoard": newTTTBoard
+                "gameBoard": newTTTBoard,
+                "players": players,
+                "numOfMoves": 0
 
 
             })
+
+            
         };
 
 
@@ -111,7 +118,9 @@ function GamePage() {
 
         try {
 
-            const response = await fetch("http://localhost:3001/api/postGame", {
+            // console.log(gameInfo);
+
+            const response = await fetch("/api/postGame", {
                 method: 'POST',
                 headers: {
 
@@ -120,15 +129,63 @@ function GamePage() {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(gameInfo),
-            })
+            });
 
-            // const data = await response.json();
-            // console.log(data);
+            const data = await response.json();
+            // console.log(data._id);
+
+            navigate(`/game/${data._id}`);
+
+            
 
 
         } catch (e) {
             console.log(e)
         }
+    }
+
+    async function joinGame(gameId, playerJoining) {
+
+
+
+        const joinInfo = {
+
+            "gameID": gameId,
+            "playerJoining": playerJoining
+
+        }
+
+
+        // console.log(gameId, playerJoining);
+
+        const token = localStorage.getItem('authToken');
+
+        if (!token) {
+            console.error('User not logged in. ');
+            alert("user not logged in")
+            return {}
+        }
+
+        try {
+
+            const response = await fetch(`/api/games/${gameId}/join`, {
+                method: 'PATCH',
+                headers: {
+
+                    // Attach the token to the Authorization header
+                    'Authorization': `Bearer ${token}`, //  THE authMiddleware IS WHAT REQUIRES THIS
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(joinInfo),
+            })
+
+            navigate(`/game/${gameId}`);
+
+
+        } catch (e) {
+            console.log(e)
+        }
+
     }
 
 
@@ -189,14 +246,26 @@ function GamePage() {
 
 
                         }
+
                     >
-                        Created by: {game.createdBy}
-                        <br />
-                        Game: {game.name}
-                        <br />
-                        {game.name == "Tic-Tac-Toe" ? `Dimension: ${game.gameSpecifications.tttDimension}` : null}
+                        <div>
+                            Created by: {game.createdBy}
+                            <br />
+                            Game: {game.name}
+                            <br />
+                            {game.name == "Tic-Tac-Toe" ? `Dimension: ${game.gameSpecifications.tttDimension}` : null}
+
+                        </div>
+
+                        <input
+                            type="button"
+                            value="Join Game"
+                            onClick={() => joinGame(game._id, currentUsername)}
+                        />
 
                     </div>
+
+
                 )
 
 

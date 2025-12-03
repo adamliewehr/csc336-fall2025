@@ -1,12 +1,122 @@
 import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+
 import GridRow from './gridRow';
 
 function TicTacToe_GameBoard() {
-    const [dimension, setDimension] = useState(null);
+    const currentUsername = localStorage.getItem('username');// current user
+    // const [dimension, setDimension] = useState(null);
     // fill the array with something so the gameBoard can be initilized correctly
-    const [gameBoard, setGameBaord] = useState(Array(dimension).fill(Array(dimension).fill("")));
-    const [turn, setTurn] = useState(1);
-    const [newData, setNewData] = useState({ boxContents: "", cords: [0, 0] });
+    const [gameBoard, setGameBaord] = useState([]);
+    // const [turn, setTurn] = useState(1);
+    const [newData, setNewData] = useState({ cords: [0, 0] });
+
+    const { gameId } = useParams();
+    const [gameData, setGameData] = useState({})
+    // const [count, setCount] = useState(0);
+
+    async function getGameData() {
+
+        const token = localStorage.getItem('authToken');
+
+        if (!token) {
+            console.error('User not logged in. ');
+            alert("user not logged in")
+            return {}
+        }
+
+        try {
+
+            const response = await fetch(`/api/getGameInfo/${gameId}`, {
+                method: 'GET',
+                headers: {
+                    // Attach the token to the Authorization header
+                    'Authorization': `Bearer ${token}` //  THE authMiddleware IS WHAT REQUIRES THIS
+                }
+            })
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch game data. Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            // console.log(data);
+
+            setGameBaord(data.gameBoard);
+
+            return data;
+
+        } catch (e) {
+            console.log(e)
+        }
+
+    }
+
+    // function test() {
+    //     setCount(count + 1);
+    // }
+
+    // useEffect(() => {
+
+
+    //     // let array = Array.from({ length: dimension }, () => Array(dimension).fill(""));
+    //     // setGameBaord(array)
+
+
+    //     // console.log(gameData);
+
+    // }, [])
+
+    // useEffect(() => {
+
+    //     try {
+
+    //         setDimension(gameData.gameSpecifications.tttDimension)
+    //         console.log(dimension)
+
+    //     } catch (e) {
+    //         console.log(e)
+    //     }
+
+
+    // }, [gameData])
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            console.log("updating");
+            getGameData().then(data => {
+                // console.log("Got fresh data:", data);
+                setGameData(data);
+            });
+        }, 2000);
+
+
+        getGameData().then(data => {
+            // console.log("Raw data from API:", data);]
+            if (data) {
+                // console.log("Setting gameData to:", data);
+                setGameData(data)
+
+                // console.log(dimension)
+
+
+            }
+            else {
+                console.log("something went wrong")
+            }
+
+        }).catch(error => {
+            console.log(error)
+        })
+
+        return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+        // console.log("GameData updated:", gameData);
+    }, [gameBoard]);
+
 
     // leared something:
 
@@ -22,42 +132,131 @@ function TicTacToe_GameBoard() {
     // Array.from({ length: dimension }, () => Array(dimension).fill(""))
 
 
-    useEffect(() => {
+    // useEffect(() => { // this is when a player takes a turn
 
-        //create a copy of gameBoard
-        let gameBoardCopy = [...gameBoard];
+    //     // //create a copy of gameBoard
+    //     // let gameBoardCopy = [...gameBoard];
 
-        gameBoardCopy[newData.cords[0]][newData.cords[1]] = newData.boxContents;
+    //     // gameBoardCopy[newData.cords[0]][newData.cords[1]] = newData.boxContents;
 
-        // console.log(gameBoardCopy);
+    //     // // console.log(gameBoardCopy);
+    //     // setGameBaord(gameBoardCopy);
 
-        setGameBaord(gameBoardCopy);
-
-        
-
-        console.log(gameBoard)
+    //     // this is the check that needs to happen to ensure both players are in the game
+    //     // gameData.createdBy && gameData.players.length==2
 
 
-    }, [newData])
 
-    useEffect(() => {
-        clearBoard()
+    //     // console.log(gameBoard)
 
-    }, [dimension])
+    // }, [newData])
 
-    function clearBoard() {
-        // initilize the array properly
-        let array = Array.from({ length: dimension }, () => Array(dimension).fill(""));
-        setGameBaord(array)
-        console.log("Cleared")
+    async function makeMove(move) {
+        // e.preventDefault();
+
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            console.error('User not logged in. ');
+            alert("user not logged in")
+            return {}
+        }
+
+        try {
+
+
+            const response = await fetch(`/api/games/${gameId}/move`, {
+                method: 'POST',
+                headers: {
+
+                    // Attach the token to the Authorization header
+                    'Authorization': `Bearer ${token}`, //  THE authMiddleware IS WHAT REQUIRES THIS
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(move),
+            });
+
+            const data = await response.json();
+
+            return data;
+
+        } catch (e) {
+            console.log(e)
+        }
+
     }
 
-    function changePlayer() {
-        setTurn(turn * -1);
-    }
+
+
+    // useEffect(() => {
+    //     clearBoard()
+
+    // }, [dimension])
+
+    // function clearBoard() {
+    //     // initilize the array properly
+    //     let array = Array.from({ length: dimension }, () => Array(dimension).fill(""));
+    //     setGameBaord(array)
+    //     console.log("Cleared")
+    // }
+
+    // function changePlayer() {
+    //     setTurn(turn * -1);
+    // }
+
 
     function getBoxData(data) {
-        setNewData(data)
+
+        // getGameData().then(() => {
+
+        // })
+
+
+        if (gameData.createdBy && gameData.players.length == 2) {
+            // console.log('setting box data')
+            // setNewData(data);
+
+            // console.log(gameBoard)
+
+
+            if (gameData.gameBoard[data.cords[0]][data.cords[1]] == "") {
+
+
+                // console.log("in!")
+
+
+
+                if (gameData.numOfMoves % 2 == 0 && gameData.players[0] == currentUsername) { // player 1's turn
+
+                    let toSend = {
+                        boxContents: "X",
+                        cords: [data.cords[0], data.cords[1]]
+                    }
+
+                    makeMove(toSend);
+
+                    console.log('player 1 took their turn');
+
+                } else if (gameData.numOfMoves % 2 == 1 && gameData.players[1] == currentUsername) { // player 2's turn
+
+                    let toSend = {
+                        boxContents: "O",
+                        cords: [data.cords[0], data.cords[1]]
+                    }
+
+                    makeMove(toSend);
+
+                    console.log('player 2 took their turn');
+
+                }
+
+
+
+
+            }
+
+
+
+        }
     }
 
     return (
@@ -65,27 +264,37 @@ function TicTacToe_GameBoard() {
         <div>
             <h1>Tic Tac Toe</h1>
 
-            <h2>Enter the size of the game board desired!</h2>
+            <h1>Game ID: {gameId}</h1>
+            <h1>Game Name: {gameData.createdBy ? gameData.name : "Loading..."}</h1>
+            <h1>Dimension: {gameData.createdBy ? gameData.gameSpecifications.tttDimension : "Loading..."}</h1>
+            <h1>It's player {gameData.createdBy && gameData.numOfMoves % 2 == 0 ? "1s" : "2"} turn</h1>
+            <h1>Player 1: {gameData.createdBy ? gameData.createdBy : "Loading..."}</h1>
+            <h1>Player 2: {gameData.createdBy && gameData.players.length == 2 ? gameData.players[1] : "Waiting for player to join..."} </h1>
 
-            <input
+
+            {/* <input value="getData" type="button" onClick={test}/> */}
+
+            {/* <h2>Enter the size of the game board desired!</h2> */}
+
+            {/* <input
                 type="text"
                 name="dimensionInput"
                 id="dimensionInput"
                 placeholder="Dimension"
-                onChange={e => setDimension(isNaN(parseInt(e.target.value, 10)) ? 1 : parseInt(e.target.value, 10))} />
+                onChange={e => setDimension(isNaN(parseInt(e.target.value, 10)) ? 1 : parseInt(e.target.value, 10))} /> */}
             {/* the fact that isNaN(typeof parseInt(input, 10)) ? 1 : parseInt(input, 10) doesn't work is actually insane. JavaScript is an interesting language*/}
 
-            <input type="button"
+            {/* <input type="button"
                 value="Clear Board"
                 name="clearBoard"
                 id="clearBoard"
-                onClick={clearBoard} />
+                onClick={clearBoard} /> */}
 
 
 
-            <h1>
+            {/* <h1>
                 {!dimension ? "" : `It's player ${turn == 1 ? 1 : 2} turn`}
-            </h1>
+            </h1> */}
             {/* need to pass in turn and change it whenver the player(s) click the screen */}
 
             {
@@ -97,8 +306,6 @@ function TicTacToe_GameBoard() {
                         rowContents={row}
                         rowIndex={index}
                         dimension={gameBoard.length}
-                        turn={turn}
-                        changePlayer={changePlayer}
                         getBoxData={getBoxData}
 
 

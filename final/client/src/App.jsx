@@ -75,6 +75,7 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/games" element={<GamePage />} />
           <Route path="/logout" element={<Logout />} />
+          <Route path="/game/:gameId" element={<TicTacToe_GameBoard />} />
 
         </Routes>
       </BrowserRouter>

@@ -26,7 +26,7 @@ function UserProfile() {
             }
 
             try {
-                const response = await fetch('http://localhost:3001/api/users/me', {
+                const response = await fetch('/api/users/me', {
                     method: 'GET',
                     headers: {
                         // Attach the token to the Authorization header

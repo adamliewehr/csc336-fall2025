@@ -25,6 +25,14 @@ const GameSchema = new mongoose.Schema({
         type: Array,
         required: true
 
+    },
+    players: {
+        type: Array,
+        required: true
+    },
+    numOfMoves: {
+        type: Number,
+        required: true
     }
 
 

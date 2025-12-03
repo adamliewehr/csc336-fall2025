@@ -114,7 +114,7 @@ app.get("/api/users/me", authMiddleware, async (req, res) => {
 
 app.post("/api/postGame", authMiddleware, async (req, res) => {
     // res.send({test: "test"})
-    const {username, gameName, gameSpecifications, gameState, gameBoard} = req.body;
+    const { username, gameName, gameSpecifications, gameState, gameBoard, players, numOfMoves } = req.body;
 
     // console.log(username);
     // console.log(gameName);
@@ -125,15 +125,18 @@ app.post("/api/postGame", authMiddleware, async (req, res) => {
         name: gameName,
         gameSpecifications: gameSpecifications,
         gameState: gameState,
-        gameBoard: gameBoard
+        gameBoard: gameBoard,
+        players: players,
+        numOfMoves: numOfMoves
     });
 
+    res.send(newGame)
 
 });
 
 app.get("/api/getGames", authMiddleware, async (req, res) => {
 
-    const listOfgames = await Game.find({$or: [ {gameState: "pending"}, {gameState: "active"},]});
+    const listOfgames = await Game.find({ $or: [{ gameState: "pending" }, { gameState: "active" },] });
     res.send(listOfgames);
 
 
@@ -141,3 +144,91 @@ app.get("/api/getGames", authMiddleware, async (req, res) => {
 
 
 });
+
+app.patch("/api/games/:id/join", authMiddleware, async (req, res) => {
+
+    const joinInfo = req.body;
+    const gameId = req.params.id; // The ID of the game being joined
+
+
+
+    const game = await Game.findOne({ _id: gameId });
+
+    if (game == null) {
+        return res.status(404).send("game not found");
+    }
+
+    if (game.gameState != "pending") {
+        return res.send("game full")
+
+
+    }
+
+
+    if (game.players.length == 2) {
+        return res.send("game full")
+    } else {
+        game.gameState = "active";
+        game.players.push(joinInfo.playerJoining);
+    }
+
+    game.save()
+        .then(doc => { // what does doc mean? it means document
+            console.log('game saved:', doc);
+        })
+        .catch(err => {
+            console.error(err);
+        });
+
+    res.send(game)
+
+})
+
+app.get("/api/getGameInfo/:id", authMiddleware, async (req, res) => {
+
+    const gameId = req.params.id; // The ID of the game being accessed
+
+    const gameInfo = await Game.findOne({ _id: gameId }); 
+    // .find() returns an array, even if there's only one object
+    // .findOne returns an object
+
+    res.send(gameInfo);
+
+});
+
+app.post("/api/games/:gameId/move", authMiddleware, async (req, res) => {
+
+    const gameId = req.params.gameId; // The ID of the game being changed
+
+    const { boxContents, cords } = req.body;
+
+    console.log(boxContents)
+    console.log(cords)
+
+    const game = await Game.findOne({ _id: gameId });
+
+    // console.log(game)
+
+    game.numOfMoves++;
+
+    //create a copy of gameBoard
+    let gameBoardCopy = [...game.gameBoard];
+
+    gameBoardCopy[cords[0]][cords[1]] = boxContents;
+
+
+    game.gameBoard = gameBoardCopy;
+    game.markModified('gameBoard'); // this was the key!?
+
+    game.save()
+        .then(doc => { // what does doc mean? it means document
+            console.log('move made:', doc);
+        })
+        .catch(err => {
+            console.error(err);
+        });
+
+    res.send(game)
+
+})
+

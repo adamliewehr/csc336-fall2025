@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import GridBox from './gridBox'
 
 
-function GridRow({ rowContents, rowIndex, dimension, turn, changePlayer, getBoxData}) { // will take in a list of GridBoxes
+function GridRow({ rowContents, rowIndex, dimension, getBoxData}) { // will take in a list of GridBoxes
 
     return (
 
@@ -16,9 +16,7 @@ function GridRow({ rowContents, rowIndex, dimension, turn, changePlayer, getBoxD
                     boxContents = {item}
                     rowIndex={rowIndex}
                     colIndex={index}
-                    turn={turn}
                     dimension = {dimension}
-                    changePlayer={changePlayer}
                     getBoxData = {getBoxData}
 
                     >

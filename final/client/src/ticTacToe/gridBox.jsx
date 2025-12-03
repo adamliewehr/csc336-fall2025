@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 
-function GridBox({ boxContents, rowIndex, colIndex, turn, dimension, changePlayer, getBoxData }) {
+function GridBox({ boxContents, rowIndex, colIndex, dimension, getBoxData }) {
 
-    const [clicked, setClicked] = useState(false);
+    // const [clicked, setClicked] = useState(false);
 
     let boxStyle = {
         width: "100px",
@@ -20,67 +20,35 @@ function GridBox({ boxContents, rowIndex, colIndex, turn, dimension, changePlaye
         borderLeftStyle: colIndex == 0 ? 'none' : 'solid',
         borderRightStyle: colIndex == dimension - 1 ? 'none' : 'solid',
 
-
     }
 
-    const handleClick = () => {
-
-
-        if (!clicked) {
-            if (turn == 1) { // it's player 1s turn
-                // put an X
-                getBoxData(
-                    {
-                        boxContents: "X",
-                        cords: [rowIndex, colIndex]
-
-
-                    }
-                );
+    function handleClick() {
+        // if (!clicked) {
+        console.log("clicked", [rowIndex, colIndex])
+        getBoxData(
+            {
+                cords: [rowIndex, colIndex]
             }
-            else { // player 2s turn
-                // put an O
-                getBoxData({
-                        boxContents: "O",
-                        cords: [rowIndex, colIndex]
+        );
 
+        // }
+        // setClicked(true)
 
-                    })
-
-            }
-
-            setClicked(true);
-            changePlayer();
-
-
-
-        }
-
-    };
+    }
 
     return (
 
         <div style={boxStyle}
-            onClick={handleClick}
-        >
+            onClick={handleClick}>
 
-            <h1
-            >{boxContents == "" ? "" : boxContents}
-            </h1>
+            <h1>{boxContents == "" ? "" : boxContents}</h1>
 
             {/* {clicked ? "clicked" : "not clicked"} */}
+            {/* <br /> */}
 
 
             {/* ({rowIndex},
-            {colIndex})
-            <br />
-            {`lastRow? ${lastRow == true ? 'true' : "false"}`}
-            <br />
-            {`lastCol? ${lastCol == true ? 'true' : "false"}`}
-            <br /> */}
-
-
-
+            {colIndex}) */}
 
 
         </div>
