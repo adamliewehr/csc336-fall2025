@@ -36,7 +36,8 @@ const GameSchema = new mongoose.Schema({
     },
     gameEnded: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false
     }
 
 
