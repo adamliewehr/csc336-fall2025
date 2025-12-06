@@ -22,6 +22,7 @@ function UserProfile() {
             if (!token) {
                 console.error('User not logged in. ');
                 alert("user not logged in")
+                navigate("/")
                 return {}
             }
 

@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
+
+
 
 import GridRow from './gridRow';
 
@@ -14,6 +16,8 @@ function TicTacToe_GameBoard() {
     const { gameId } = useParams();
     const [gameData, setGameData] = useState({})
     // const [count, setCount] = useState(0);
+    // const [gameEnded, setGameEnded] = useState(false)
+    const navigate = useNavigate();
 
     async function getGameData() {
 
@@ -22,6 +26,7 @@ function TicTacToe_GameBoard() {
         if (!token) {
             console.error('User not logged in. ');
             alert("user not logged in")
+            navigate("/")
             return {}
         }
 
@@ -44,6 +49,8 @@ function TicTacToe_GameBoard() {
             // console.log(data);
 
             setGameBaord(data.gameBoard);
+
+
 
             return data;
 
@@ -82,14 +89,38 @@ function TicTacToe_GameBoard() {
 
     // }, [gameData])
 
+
+
+
+
     useEffect(() => {
         const interval = setInterval(() => {
             console.log("updating");
+
+
+
+
+
             getGameData().then(data => {
                 // console.log("Got fresh data:", data);
                 setGameData(data);
+                if (data.gameEnded) {
+
+                    alert("game has ended! if you're seeing this, you lost :( You are being navigated to the games list page to try again!");
+                    navigate("/games")
+                }
             });
         }, 2000);
+
+        // if (gameData.createdBy) {
+        //     checkWin(gameBoard)
+        // }
+
+
+
+
+
+
 
 
         getGameData().then(data => {
@@ -158,6 +189,7 @@ function TicTacToe_GameBoard() {
         if (!token) {
             console.error('User not logged in. ');
             alert("user not logged in")
+            navigate("/")
             return {}
         }
 
@@ -176,6 +208,19 @@ function TicTacToe_GameBoard() {
             });
 
             const data = await response.json();
+
+            // console.log(data.gameBoard)
+
+            if (data.numOfMoves == (data.gameSpecifications.tttDimension)*(data.gameSpecifications.tttDimension)) {
+
+                endGame("-")
+
+            }
+
+            
+
+
+            checkWin(data.gameBoard);
 
             return data;
 
@@ -203,59 +248,194 @@ function TicTacToe_GameBoard() {
     //     setTurn(turn * -1);
     // }
 
+    async function endGame(winner) {
 
-    function getBoxData(data) {
-
-        // getGameData().then(() => {
-
-        // })
-
-
-        if (gameData.createdBy && gameData.players.length == 2) {
-            // console.log('setting box data')
-            // setNewData(data);
-
-            // console.log(gameBoard)
-
-
-            if (gameData.gameBoard[data.cords[0]][data.cords[1]] == "") {
-
-
-                // console.log("in!")
+        let toSend = {
+            winnerXorO: winner
+        }
 
 
 
-                if (gameData.numOfMoves % 2 == 0 && gameData.players[0] == currentUsername) { // player 1's turn
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            console.error('User not logged in. ');
+            alert("user not logged in")
+            navigate("/")
+            return {}
+        }
 
-                    let toSend = {
-                        boxContents: "X",
-                        cords: [data.cords[0], data.cords[1]]
-                    }
+        try {
 
-                    makeMove(toSend);
+            const response = await fetch(`/api/games/${gameId}/endGame`, {
+                method: 'POST',
+                headers: {
 
-                    console.log('player 1 took their turn');
+                    // Attach the token to the Authorization header
+                    'Authorization': `Bearer ${token}`, //  THE authMiddleware IS WHAT REQUIRES THIS
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(toSend),
+            });
 
-                } else if (gameData.numOfMoves % 2 == 1 && gameData.players[1] == currentUsername) { // player 2's turn
+            if (winner == "-") {
 
-                    let toSend = {
-                        boxContents: "O",
-                        cords: [data.cords[0], data.cords[1]]
-                    }
+                alert(`The game ended in a tie! Navigating you back to the games list...`)
+                navigate('/games');
 
-                    makeMove(toSend);
+            } else {
 
-                    console.log('player 2 took their turn');
-
-                }
-
-
-
+                alert(`Game has ended! ${winner} wins! Navigating you back to the games list...`)
+                navigate('/games');
+                // window.location.reload(false);
 
             }
 
 
 
+
+
+            const data = await response.json();
+
+            return data;
+
+        } catch (e) {
+            console.log(e)
+        }
+
+    }
+
+    async function checkWin(gameBoard) {
+
+        // rows
+
+        for (const row of gameBoard) {
+
+            let currentRow = [...new Set(row)]
+            if (currentRow.length == 1 && currentRow[0] != "") {
+                // setGameEnded(true)
+                endGame(currentRow[0])
+
+
+
+                // console.log(`${currentRow[0]} wins!`)
+
+            }
+
+        }
+
+        // transposed array
+
+        const transposedArray = gameBoard[0].map((_, colIndex) =>
+            gameBoard.map(row => row[colIndex])
+        );
+
+        // cols
+
+        for (const row of transposedArray) {
+
+            let currentRow = [...new Set(row)]
+            if (currentRow.length == 1 && currentRow[0] != "") {
+
+                // setGameEnded(true)
+                endGame(currentRow[0])
+                // console.log(`${currentRow[0]} wins!`)
+
+            }
+
+        }
+
+        // diags (can only win on the middle 'X' diags)
+
+        let leftToRightDiag = []
+        let rightToLeftDiag = []
+
+        for (let i = 0; i < gameBoard.length; i++) {
+
+            leftToRightDiag.push(gameBoard[i][i])
+            rightToLeftDiag.push(gameBoard[i][gameBoard.length - i - 1])
+
+        }
+
+        let setLeftToRightDiag = [...new Set(leftToRightDiag)]
+        let setRightToLeftDiag = [...new Set(rightToLeftDiag)]
+
+        if (setLeftToRightDiag.length == 1 && setLeftToRightDiag[0] != "") {
+            // setGameEnded(true)
+
+            endGame(currentRow[0])
+            // console.log(`${setLeftToRightDiag[0]} wins!`)
+
+        }
+
+        if (setRightToLeftDiag.length == 1 && setRightToLeftDiag[0] != "") {
+
+            // setGameEnded(true)
+            endGame(currentRow[0])
+            // console.log(`${setRightToLeftDiag[0]} wins!`)
+
+        }
+
+
+    }
+
+
+    function getBoxData(data) {
+
+        if (!gameData.gameEnded) {
+
+
+            if (gameData.createdBy && gameData.players.length == 2) {
+                // console.log('setting box data')
+                // setNewData(data);
+
+                // console.log(gameBoard)
+
+
+                if (gameData.gameBoard[data.cords[0]][data.cords[1]] == "") {
+
+
+                    // console.log("in!")
+
+
+
+                    if (gameData.numOfMoves % 2 == 0 && gameData.players[0] == currentUsername) { // player 1's turn
+
+                        let toSend = {
+                            boxContents: "X",
+                            cords: [data.cords[0], data.cords[1]]
+                        }
+
+                        makeMove(toSend);
+
+                        console.log('player 1 took their turn');
+
+                    } else if (gameData.numOfMoves % 2 == 1 && gameData.players[1] == currentUsername) { // player 2's turn
+
+                        let toSend = {
+                            boxContents: "O",
+                            cords: [data.cords[0], data.cords[1]]
+                        }
+
+                        makeMove(toSend);
+
+                        console.log('player 2 took their turn');
+
+                    }
+
+
+
+
+
+
+                }
+
+
+
+            }
+        }
+
+        else {
+            alert(`Game has ended! If you're seeing this message, you lost :(`)
         }
     }
 

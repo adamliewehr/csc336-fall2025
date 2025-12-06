@@ -42,6 +42,7 @@ function GamePage() {
         if (!token) {
             console.error('User not logged in. ');
             alert("user not logged in")
+            navigate("/")
             return {}
         }
 
@@ -88,7 +89,8 @@ function GamePage() {
                 "gameState": "pending",
                 "gameBoard": newTTTBoard,
                 "players": players,
-                "numOfMoves": 0
+                "numOfMoves": 0,
+                "gameEnded": false
 
 
             })
@@ -113,6 +115,7 @@ function GamePage() {
         if (!token) {
             console.error('User not logged in. ');
             alert("user not logged in")
+            navigate("/")
             return {}
         }
 
@@ -163,6 +166,7 @@ function GamePage() {
         if (!token) {
             console.error('User not logged in. ');
             alert("user not logged in")
+            navigate("/")
             return {}
         }
 

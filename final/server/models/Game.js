@@ -33,6 +33,10 @@ const GameSchema = new mongoose.Schema({
     numOfMoves: {
         type: Number,
         required: true
+    },
+    gameEnded: {
+        type: Boolean,
+        required: true
     }
 
 

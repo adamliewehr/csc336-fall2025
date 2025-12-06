@@ -116,7 +116,7 @@ app.get("/api/users/me", authMiddleware, async (req, res) => {
 
 app.post("/api/postGame", authMiddleware, async (req, res) => {
     // res.send({test: "test"})
-    const { username, gameName, gameSpecifications, gameState, gameBoard, players, numOfMoves } = req.body;
+    const { username, gameName, gameSpecifications, gameState, gameBoard, players, numOfMoves, gameEnded } = req.body;
 
     // console.log(username);
     // console.log(gameName);
@@ -129,7 +129,8 @@ app.post("/api/postGame", authMiddleware, async (req, res) => {
         gameState: gameState,
         gameBoard: gameBoard,
         players: players,
-        numOfMoves: numOfMoves
+        numOfMoves: numOfMoves,
+        gameEnded: gameEnded
     });
 
     res.send(newGame)
@@ -234,3 +235,72 @@ app.post("/api/games/:gameId/move", authMiddleware, async (req, res) => {
 
 })
 
+app.post("/api/games/:gameId/endGame", authMiddleware, async (req, res) => {
+
+    const gameId = req.params.gameId; // The ID of the game being checked
+
+    // need to mark game as complete
+    // update player status 
+    // if they won, add a win
+    // either way, add a game played
+
+    const { winnerXorO } = req.body;
+
+    // console.log(`the winner is: ${winnerXorO}`);
+
+    const game = await Game.findOne({ _id: gameId });
+    game.gameEnded = true;
+
+    game.gameState = "complete"
+
+    const player1 = await User.findOne({ username: game.players[0] })
+    const player2 = await User.findOne({ username: game.players[1] })
+
+    player1.gamesPlayed++;
+    player2.gamesPlayed++;
+
+    if (winnerXorO == "X") { // game.players[0] wins
+
+
+        player1.wins++;
+
+
+
+    }
+    else if (winnerXorO == "O") { // game.players[1] wins
+
+
+        player2.wins++;
+
+
+
+    } // there is no else since ties can happen
+
+    player1.save()
+        .then(doc => {
+            console.log('player1 has been saved', doc);
+        })
+        .catch(err => {
+            console.error(err);
+        });
+
+    player2.save()
+        .then(doc => {
+            console.log('player1 has been saved', doc);
+        })
+        .catch(err => {
+            console.error(err);
+        });
+
+
+    game.save()
+        .then(doc => { // what does doc mean? it means document
+            console.log('game has ended:', doc);
+        })
+        .catch(err => {
+            console.error(err);
+        });
+
+    res.send(game)
+
+})
