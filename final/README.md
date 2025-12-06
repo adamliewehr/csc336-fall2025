@@ -56,3 +56,11 @@ React was also extremly rewarding. Creating the dynamic tic tac toe board was ac
 I thought that once I had the front end down, the rest would be a breeze, but the backend was actually the most time consuming part. Creating the end points was confusing at times, especially sicne Mongo DB was baked into it, but I got the hang of it by the end. 
 
 Overall, this was the most rewarding project I've ever made and class I've ever taken. Thank you Professor Treanor! 
+
+
+
+## Things I learned about web development:
+
+1. Be careful about light mode and dark mode! 
+2. Be careful about how to initilize arrays in react/js
+3. Javascript is weird

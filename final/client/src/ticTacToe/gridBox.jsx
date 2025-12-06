@@ -7,7 +7,7 @@ function GridBox({ boxContents, rowIndex, colIndex, dimension, getBoxData }) {
     let boxStyle = {
         width: "100px",
         height: "100px",
-        border: "5px solid white",
+        border: "5px solid red",
 
 
         // if square is in the top row, make the top of the border none,
