@@ -442,7 +442,7 @@ function TicTacToe_GameBoard() {
     return (
 
         <div>
-            <h1>Tic Tac Toe</h1>
+            {/* <h1>Tic Tac Toe</h1> */}
 
             <h1>Game ID: {gameId}</h1>
             <h1>Game Name: {gameData.createdBy ? gameData.name : "Loading..."}</h1>

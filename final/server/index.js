@@ -12,8 +12,6 @@ import Game from './models/Game.js';
 
 import authMiddleware from './middleware/authMiddleware.js';
 
-
-
 const app = express();
 app.use(express.json())
 app.use(cors()); // Allows requests from your client's origin
