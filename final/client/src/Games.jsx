@@ -9,13 +9,10 @@ function GamePage() {
     const [tttDimension, setTttDimension] = useState("");
     const currentUsername = localStorage.getItem('username');
     const [gameInfo, setGameInfo] = useState({});
-
-
     const [currentGames, setCurrentGames] = useState([]);
     const [count, setCount] = useState(0);
 
     const navigate = useNavigate();
-
 
     useEffect(() => {
 
@@ -68,8 +65,6 @@ function GamePage() {
             console.log(e)
         }
 
-
-
     }
 
     useEffect(() => {
@@ -121,8 +116,6 @@ function GamePage() {
 
         try {
 
-            // console.log(gameInfo);
-
             const response = await fetch("/api/postGame", {
                 method: 'POST',
                 headers: {
@@ -135,7 +128,6 @@ function GamePage() {
             });
 
             const data = await response.json();
-            // console.log(data._id);
 
             navigate(`/game/${data._id}`);
 
@@ -157,9 +149,6 @@ function GamePage() {
             "playerJoining": playerJoining
 
         }
-
-
-        // console.log(gameId, playerJoining);
 
         const token = localStorage.getItem('authToken');
 
@@ -235,7 +224,6 @@ function GamePage() {
 
             {currentGames.map((game, index) => {
 
-                // console.log(game)
                 // if the game is pending, make it one color
                 // if its active, make it another color
 
@@ -247,7 +235,6 @@ function GamePage() {
                             {
                                 border: `5px solid ${game.gameState == "pending" ? "green" : "red"}`
                             }
-
 
                         }
 

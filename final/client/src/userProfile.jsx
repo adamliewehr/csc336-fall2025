@@ -41,8 +41,6 @@ function UserProfile() {
 
                 const data = await response.json();
 
-                // console.log(data.userInfo);
-
                 return data.userInfo;
 
             }
@@ -72,8 +70,6 @@ function UserProfile() {
             <h1>{userInfo.username} stats</h1>
             <h2>Games Played: {userInfo.gamesPlayed}</h2>
             <h2>Wins: {userInfo.wins}</h2>
-
-            {/* {userInfo.gamesPlayed} */}
 
 
         </div>

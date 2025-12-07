@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import GridBox from './gridBox'
 
 
-function GridRow({ rowContents, rowIndex, dimension, getBoxData}) { // will take in a list of GridBoxes
+function GridRow({ rowContents, rowIndex, dimension, getBoxData }) { // will take in a list of GridBoxes
 
     return (
 
@@ -13,13 +13,13 @@ function GridRow({ rowContents, rowIndex, dimension, getBoxData}) { // will take
 
                 return <GridBox
                     key={index}
-                    boxContents = {item}
+                    boxContents={item}
                     rowIndex={rowIndex}
                     colIndex={index}
-                    dimension = {dimension}
-                    getBoxData = {getBoxData}
+                    dimension={dimension}
+                    getBoxData={getBoxData}
 
-                    >
+                >
 
                 </GridBox>
 

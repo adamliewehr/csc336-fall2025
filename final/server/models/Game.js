@@ -5,9 +5,7 @@ const GameSchema = new mongoose.Schema({
     createdBy: {
         type: String,
         required: true
-
     },
-
     name: {
         type: String,
         required: true
@@ -39,8 +37,6 @@ const GameSchema = new mongoose.Schema({
         required: true,
         default: false
     }
-
-
 
 });
 

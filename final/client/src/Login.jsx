@@ -2,14 +2,9 @@ import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-
-
 function Login() {
 
     const navigate = useNavigate();
-
-
-
 
     const location = useLocation();
     const [logoutMessage, setLogoutMessage] = useState(null);
@@ -22,9 +17,7 @@ function Login() {
             // This prevents the message from flashing if they use the browser back/forward buttons
             window.history.replaceState({}, document.title);
 
-
         }
-
 
     }, [location]);
 
@@ -43,8 +36,6 @@ function Login() {
     async function handleSubmit(e) {
         e.preventDefault(); // Stops the page reload
 
-
-
         try {
             const response = await fetch('/api/auth/login', {
                 method: 'POST',
@@ -59,14 +50,14 @@ function Login() {
 
             const data = await response.json();
 
-            // Success -> Store the JWT and username
+            // Store the JWT and username
             localStorage.setItem('authToken', data.token); // Store the JWT
             localStorage.setItem('username', data.username); // Store username for display
 
             console.log('Login Successful! Token stored.');
             alert("Login successful! Routing you to the home page.")
 
-            // Next: Redirect user to game lobby (e.g., navigate('/lobby'))
+            // Redirect user to game lobby (e.g., navigate('/lobby'))
             navigate('/');
             window.location.reload(false);
 

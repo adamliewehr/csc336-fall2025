@@ -27,9 +27,6 @@ function App() {
 
   }, []);
 
-
-
-
   return (
     <>
 
@@ -38,10 +35,7 @@ function App() {
           <div className='flex-container'>
 
             <NavLink to="/" className="navLink">Home</NavLink>
-
-            {/* <NavLink to="/ticTacToe" className="navLink">Tic Tac Toe</NavLink> */}
             <NavLink to="/games" className="navLink">Game List</NavLink>
-
 
             {userStatus ?
               <>
@@ -57,19 +51,13 @@ function App() {
 
             }
 
-
           </div>
-
-
-
 
         </nav>
 
 
         <Routes>
           <Route path="/" element={<Home />} />
-
-          {/* <Route path="/ticTacToe" element={<TicTacToe_GameBoard />} /> */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<UserProfile />} />

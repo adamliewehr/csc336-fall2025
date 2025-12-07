@@ -7,8 +7,7 @@ import jwt from 'jsonwebtoken'; // to create a secure id for users? i think?
 import cors from 'cors';
 
 import User from './models/User.js'; // user model for MongoDB
-import Game from './models/Game.js';
-
+import Game from './models/Game.js'; // game model for MongoDB
 
 import authMiddleware from './middleware/authMiddleware.js';
 
@@ -113,13 +112,11 @@ app.get("/api/users/me", authMiddleware, async (req, res) => {
 
 
 app.post("/api/postGame", authMiddleware, async (req, res) => {
-    // res.send({test: "test"})
+
+    // getting data from the form and useState variables in games.jsx
     const { username, gameName, gameSpecifications, gameState, gameBoard, players, numOfMoves, gameEnded } = req.body;
 
-    // console.log(username);
-    // console.log(gameName);
-    // console.log(gameSpecifications);
-
+    // creating the game and inputing it into mongoDB
     const newGame = await Game.create({
         createdBy: username,
         name: gameName,
@@ -137,12 +134,11 @@ app.post("/api/postGame", authMiddleware, async (req, res) => {
 
 app.get("/api/getGames", authMiddleware, async (req, res) => {
 
+    // finding all games that are pending or active
     const listOfgames = await Game.find({ $or: [{ gameState: "pending" }, { gameState: "active" },] });
+
+    // sending that back to the client
     res.send(listOfgames);
-
-
-    // res.send({test: "test"});
-
 
 });
 
@@ -151,20 +147,17 @@ app.patch("/api/games/:id/join", authMiddleware, async (req, res) => {
     const joinInfo = req.body;
     const gameId = req.params.id; // The ID of the game being joined
 
+    const game = await Game.findOne({ _id: gameId }); // finding the game with the specific ID
 
-
-    const game = await Game.findOne({ _id: gameId });
-
+    // game doesn't exist
     if (game == null) {
         return res.status(404).send("game not found");
     }
 
+    // game full
     if (game.gameState != "pending") {
         return res.send("game full")
-
-
     }
-
 
     if (game.players.length == 2) {
         return res.send("game full")
@@ -199,30 +192,29 @@ app.get("/api/getGameInfo/:id", authMiddleware, async (req, res) => {
 
 app.post("/api/games/:gameId/move", authMiddleware, async (req, res) => {
 
-    const gameId = req.params.gameId; // The ID of the game being changed
+    const gameId = req.params.gameId;
 
+    // X or O, and the cords of the click
     const { boxContents, cords } = req.body;
-
-    console.log(boxContents)
-    console.log(cords)
 
     const game = await Game.findOne({ _id: gameId });
 
-    // console.log(game)
-
+    // increment the number of moves
     game.numOfMoves++;
 
     //create a copy of gameBoard
     let gameBoardCopy = [...game.gameBoard];
 
+    // set the box equal to X or O
     gameBoardCopy[cords[0]][cords[1]] = boxContents;
-
 
     game.gameBoard = gameBoardCopy;
     game.markModified('gameBoard'); // this was the key!?
+    // when you modify a sub array of a document, you most mark it as modified
+    // so MongoDB knows you changed something
 
     game.save()
-        .then(doc => { // what does doc mean? it means document
+        .then(doc => {
             console.log('move made:', doc);
         })
         .catch(err => {
@@ -244,8 +236,6 @@ app.post("/api/games/:gameId/endGame", authMiddleware, async (req, res) => {
 
     const { winnerXorO } = req.body;
 
-    // console.log(`the winner is: ${winnerXorO}`);
-
     const game = await Game.findOne({ _id: gameId });
     game.gameEnded = true;
 
@@ -259,18 +249,12 @@ app.post("/api/games/:gameId/endGame", authMiddleware, async (req, res) => {
 
     if (winnerXorO == "X") { // game.players[0] wins
 
-
         player1.wins++;
-
-
 
     }
     else if (winnerXorO == "O") { // game.players[1] wins
 
-
         player2.wins++;
-
-
 
     } // there is no else since ties can happen
 
@@ -292,7 +276,7 @@ app.post("/api/games/:gameId/endGame", authMiddleware, async (req, res) => {
 
 
     game.save()
-        .then(doc => { // what does doc mean? it means document
+        .then(doc => {
             console.log('game has ended:', doc);
         })
         .catch(err => {

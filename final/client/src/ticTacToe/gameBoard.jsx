@@ -1,25 +1,21 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
-
-
 import GridRow from './gridRow';
 
 function TicTacToe_GameBoard() {
-    const currentUsername = localStorage.getItem('username');// current user
-    // const [dimension, setDimension] = useState(null);
+    const currentUsername = localStorage.getItem('username'); // current user
     // fill the array with something so the gameBoard can be initilized correctly
     const [gameBoard, setGameBaord] = useState([]);
-    // const [turn, setTurn] = useState(1);
-    const [newData, setNewData] = useState({ cords: [0, 0] });
-
+    const [newData, setNewData] = useState({ cords: [0, 0] }); // I'm scared to remove this even though it does nothing
     const { gameId } = useParams();
     const [gameData, setGameData] = useState({})
-    // const [count, setCount] = useState(0);
-    // const [gameEnded, setGameEnded] = useState(false)
+
     const navigate = useNavigate();
 
     async function getGameData() {
+
+        // authenticating the user
 
         const token = localStorage.getItem('authToken');
 
@@ -46,11 +42,7 @@ function TicTacToe_GameBoard() {
 
             const data = await response.json();
 
-            // console.log(data);
-
             setGameBaord(data.gameBoard);
-
-
 
             return data;
 
@@ -60,49 +52,11 @@ function TicTacToe_GameBoard() {
 
     }
 
-    // function test() {
-    //     setCount(count + 1);
-    // }
-
-    // useEffect(() => {
-
-
-    //     // let array = Array.from({ length: dimension }, () => Array(dimension).fill(""));
-    //     // setGameBaord(array)
-
-
-    //     // console.log(gameData);
-
-    // }, [])
-
-    // useEffect(() => {
-
-    //     try {
-
-    //         setDimension(gameData.gameSpecifications.tttDimension)
-    //         console.log(dimension)
-
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
-
-
-    // }, [gameData])
-
-
-
-
-
     useEffect(() => {
         const interval = setInterval(() => {
             console.log("updating");
 
-
-
-
-
             getGameData().then(data => {
-                // console.log("Got fresh data:", data);
                 setGameData(data);
                 if (data.gameEnded) {
 
@@ -112,25 +66,11 @@ function TicTacToe_GameBoard() {
             });
         }, 2000);
 
-        // if (gameData.createdBy) {
-        //     checkWin(gameBoard)
-        // }
-
-
-
-
-
-
-
 
         getGameData().then(data => {
-            // console.log("Raw data from API:", data);]
             if (data) {
-                // console.log("Setting gameData to:", data);
+
                 setGameData(data)
-
-                // console.log(dimension)
-
 
             }
             else {
@@ -145,16 +85,14 @@ function TicTacToe_GameBoard() {
     }, []);
 
     useEffect(() => {
-        // console.log("GameData updated:", gameData);
     }, [gameBoard]);
-
 
     // leared something:
 
     // Incorrect way to create a matrix
     // const initialMatrix = Array(3).fill(Array(3).fill(0));
 
-    //In this scenario, all three inner arrays are actually references to the exact same array in memory. 
+    // In this scenario, all three inner arrays are actually references to the exact same array in memory. 
     // When you change a value in the "first row" (initialMatrix[0][0] = 1), you are changing the shared array, 
     // so the change appears in all "rows" (which are all the same underlying object). 
 
@@ -162,30 +100,10 @@ function TicTacToe_GameBoard() {
 
     // Array.from({ length: dimension }, () => Array(dimension).fill(""))
 
-
-    // useEffect(() => { // this is when a player takes a turn
-
-    //     // //create a copy of gameBoard
-    //     // let gameBoardCopy = [...gameBoard];
-
-    //     // gameBoardCopy[newData.cords[0]][newData.cords[1]] = newData.boxContents;
-
-    //     // // console.log(gameBoardCopy);
-    //     // setGameBaord(gameBoardCopy);
-
-    //     // this is the check that needs to happen to ensure both players are in the game
-    //     // gameData.createdBy && gameData.players.length==2
-
-
-
-    //     // console.log(gameBoard)
-
-    // }, [newData])
-
     async function makeMove(move) {
-        // e.preventDefault();
 
         const token = localStorage.getItem('authToken');
+
         if (!token) {
             console.error('User not logged in. ');
             alert("user not logged in")
@@ -194,7 +112,6 @@ function TicTacToe_GameBoard() {
         }
 
         try {
-
 
             const response = await fetch(`/api/games/${gameId}/move`, {
                 method: 'POST',
@@ -209,16 +126,11 @@ function TicTacToe_GameBoard() {
 
             const data = await response.json();
 
-            // console.log(data.gameBoard)
+            if (data.numOfMoves == (data.gameSpecifications.tttDimension) * (data.gameSpecifications.tttDimension)) {
 
-            if (data.numOfMoves == (data.gameSpecifications.tttDimension)*(data.gameSpecifications.tttDimension)) {
-
-                endGame("-")
+                endGame("-") // if tie
 
             }
-
-            
-
 
             checkWin(data.gameBoard);
 
@@ -230,31 +142,11 @@ function TicTacToe_GameBoard() {
 
     }
 
-
-
-    // useEffect(() => {
-    //     clearBoard()
-
-    // }, [dimension])
-
-    // function clearBoard() {
-    //     // initilize the array properly
-    //     let array = Array.from({ length: dimension }, () => Array(dimension).fill(""));
-    //     setGameBaord(array)
-    //     console.log("Cleared")
-    // }
-
-    // function changePlayer() {
-    //     setTurn(turn * -1);
-    // }
-
     async function endGame(winner) {
 
         let toSend = {
             winnerXorO: winner
         }
-
-
 
         const token = localStorage.getItem('authToken');
         if (!token) {
@@ -286,13 +178,8 @@ function TicTacToe_GameBoard() {
 
                 alert(`Game has ended! ${winner} wins! Navigating you back to the games list...`)
                 navigate('/games');
-                // window.location.reload(false);
 
             }
-
-
-
-
 
             const data = await response.json();
 
@@ -312,12 +199,8 @@ function TicTacToe_GameBoard() {
 
             let currentRow = [...new Set(row)]
             if (currentRow.length == 1 && currentRow[0] != "") {
-                // setGameEnded(true)
+
                 endGame(currentRow[0])
-
-
-
-                // console.log(`${currentRow[0]} wins!`)
 
             }
 
@@ -336,9 +219,7 @@ function TicTacToe_GameBoard() {
             let currentRow = [...new Set(row)]
             if (currentRow.length == 1 && currentRow[0] != "") {
 
-                // setGameEnded(true)
                 endGame(currentRow[0])
-                // console.log(`${currentRow[0]} wins!`)
 
             }
 
@@ -360,18 +241,14 @@ function TicTacToe_GameBoard() {
         let setRightToLeftDiag = [...new Set(rightToLeftDiag)]
 
         if (setLeftToRightDiag.length == 1 && setLeftToRightDiag[0] != "") {
-            // setGameEnded(true)
 
             endGame(currentRow[0])
-            // console.log(`${setLeftToRightDiag[0]} wins!`)
 
         }
 
         if (setRightToLeftDiag.length == 1 && setRightToLeftDiag[0] != "") {
 
-            // setGameEnded(true)
             endGame(currentRow[0])
-            // console.log(`${setRightToLeftDiag[0]} wins!`)
 
         }
 
@@ -383,20 +260,9 @@ function TicTacToe_GameBoard() {
 
         if (!gameData.gameEnded) {
 
-
             if (gameData.createdBy && gameData.players.length == 2) {
-                // console.log('setting box data')
-                // setNewData(data);
-
-                // console.log(gameBoard)
-
 
                 if (gameData.gameBoard[data.cords[0]][data.cords[1]] == "") {
-
-
-                    // console.log("in!")
-
-
 
                     if (gameData.numOfMoves % 2 == 0 && gameData.players[0] == currentUsername) { // player 1's turn
 
@@ -422,14 +288,7 @@ function TicTacToe_GameBoard() {
 
                     }
 
-
-
-
-
-
                 }
-
-
 
             }
         }
@@ -442,7 +301,6 @@ function TicTacToe_GameBoard() {
     return (
 
         <div>
-            {/* <h1>Tic Tac Toe</h1> */}
 
             <h1>Game ID: {gameId}</h1>
             <h1>Game Name: {gameData.createdBy ? gameData.name : "Loading..."}</h1>
@@ -451,34 +309,7 @@ function TicTacToe_GameBoard() {
             <h1>Player 1: {gameData.createdBy ? gameData.createdBy : "Loading..."}</h1>
             <h1>Player 2: {gameData.createdBy && gameData.players.length == 2 ? gameData.players[1] : "Waiting for player to join..."} </h1>
 
-
-            {/* <input value="getData" type="button" onClick={test}/> */}
-
-            {/* <h2>Enter the size of the game board desired!</h2> */}
-
-            {/* <input
-                type="text"
-                name="dimensionInput"
-                id="dimensionInput"
-                placeholder="Dimension"
-                onChange={e => setDimension(isNaN(parseInt(e.target.value, 10)) ? 1 : parseInt(e.target.value, 10))} /> */}
-            {/* the fact that isNaN(typeof parseInt(input, 10)) ? 1 : parseInt(input, 10) doesn't work is actually insane. JavaScript is an interesting language*/}
-
-            {/* <input type="button"
-                value="Clear Board"
-                name="clearBoard"
-                id="clearBoard"
-                onClick={clearBoard} /> */}
-
-
-
-            {/* <h1>
-                {!dimension ? "" : `It's player ${turn == 1 ? 1 : 2} turn`}
-            </h1> */}
-            {/* need to pass in turn and change it whenver the player(s) click the screen */}
-
             {
-
                 gameBoard.map((row, index) => {
 
                     return <GridRow
@@ -487,16 +318,11 @@ function TicTacToe_GameBoard() {
                         rowIndex={index}
                         dimension={gameBoard.length}
                         getBoxData={getBoxData}
-
-
-
                     ></GridRow>
 
                 })
 
             }
-
-
 
         </div>
 
@@ -504,4 +330,3 @@ function TicTacToe_GameBoard() {
 }
 
 export default TicTacToe_GameBoard
-

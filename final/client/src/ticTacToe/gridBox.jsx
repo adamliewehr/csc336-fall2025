@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react'
 
 function GridBox({ boxContents, rowIndex, colIndex, dimension, getBoxData }) {
 
-    // const [clicked, setClicked] = useState(false);
-
     let boxStyle = {
         width: "100px",
         height: "100px",
@@ -23,16 +21,12 @@ function GridBox({ boxContents, rowIndex, colIndex, dimension, getBoxData }) {
     }
 
     function handleClick() {
-        // if (!clicked) {
         console.log("clicked", [rowIndex, colIndex])
         getBoxData(
             {
                 cords: [rowIndex, colIndex]
             }
         );
-
-        // }
-        // setClicked(true)
 
     }
 
@@ -42,14 +36,6 @@ function GridBox({ boxContents, rowIndex, colIndex, dimension, getBoxData }) {
             onClick={handleClick}>
 
             <h1>{boxContents == "" ? "" : boxContents}</h1>
-
-            {/* {clicked ? "clicked" : "not clicked"} */}
-            {/* <br /> */}
-
-
-            {/* ({rowIndex},
-            {colIndex}) */}
-
 
         </div>
 
